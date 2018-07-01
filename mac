@@ -107,15 +107,6 @@ if [ ! -d "$HOME/tmp" ]; then
   mkdir "$HOME/tmp"
 fi
 
-fancy_echo "Install oh-my-zsh"
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-fi
-
-fancy_echo "Create symbolic links in custom oh-my-zsh templates and customs"
-ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/themes/machupicchubeta.zsh-theme" "$HOME/.oh-my-zsh/themes/machupicchubeta.zsh-theme"
-ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
-
 fancy_echo "Create Homebrew directory and Change the owner"
 HOMEBREW_PREFIX="/usr/local"
 
@@ -224,6 +215,11 @@ fi
 
 eval $(ssh-agent)
 
-fancy_echo "Use zsh"
-zsh
-source "$HOME"/.zshrc
+fancy_echo "Create symbolic links in custom oh-my-zsh templates and customs"
+ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/themes/machupicchubeta.zsh-theme" "$HOME/.oh-my-zsh/themes/machupicchubeta.zsh-theme"
+ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
+
+fancy_echo "Install oh-my-zsh"
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+fi
