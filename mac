@@ -219,8 +219,10 @@ fi
 eval $(ssh-agent)
 
 fancy_echo "Create symbolic links in custom oh-my-zsh templates and customs"
-ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/themes/machupicchubeta.zsh-theme" "$HOME/.oh-my-zsh/themes/machupicchubeta.zsh-theme"
-ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
+if [ -d "$HOME/.oh-my-zsh" ]; then
+  ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/themes/machupicchubeta.zsh-theme" "$HOME/.oh-my-zsh/themes/machupicchubeta.zsh-theme"
+  ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
+fi
 
 fancy_echo "Install oh-my-zsh"
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
