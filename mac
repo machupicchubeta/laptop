@@ -77,6 +77,12 @@ fi
 if [ ! -L "$HOME/.dotfiles" ]; then
   ln -s "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
 fi
+if [ ! -d "$HOME/.ctags.d" ]; then
+  mkdir "$HOME/.ctags.d/"
+fi
+if [ ! -L "$HOME/.ctags.d/default.ctags" ]; then
+  ln -s "$HOME/Tools/dotfiles/.ctags.d/default.ctags" "$HOME/.ctags.d/default.ctags"
+fi
 
 fancy_echo "Create symbolic links on $HOME/bin"
 ln -sf "$HOME/Tools/diceware/diceware.rb" "$HOME/bin/diceware.rb"
