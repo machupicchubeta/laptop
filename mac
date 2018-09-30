@@ -1,0 +1,229 @@
+#!/bin/sh
+
+fancy_echo() {
+  local fmt="$1"; shift
+  printf "\n$fmt\n" "$@"
+}
+
+set -e
+
+cd "$HOME"
+
+# fancy_echo "Install Xcode command line tools if you don't installed yet"
+# xcode-select --install
+# sudo xcodebuild -license
+
+fancy_echo "Create $HOME/Tools directory"
+if [ ! -d "$HOME/Tools" ]; then
+  mkdir "$HOME/Tools"
+fi
+
+fancy_echo "git clone dotfiles repository"
+if [ ! -d "$HOME/Tools/dotfiles" ]; then
+  git clone git@github.com:machupicchubeta/dotfiles.git "$HOME/Tools/dotfiles"
+fi
+
+fancy_echo "git clone diceware repository"
+if [ ! -d "$HOME/Tools/diceware" ]; then
+  git clone git@github.com:machupicchubeta/diceware.git "$HOME/Tools/diceware"
+fi
+
+fancy_echo "git clone solarized repository"
+if [ ! -d "$HOME/Tools/altercation/solarized" ]; then
+  git clone git@github.com:altercation/solarized.git "$HOME/Tools/altercation/solarized"
+fi
+
+fancy_echo "git clone iterm2 color schemes"
+if [ ! -d "$HOME/Tools/mbadolato/iTerm2-Color-Schemes" ]; then
+  git clone git@github.com:mbadolato/iTerm2-Color-Schemes.git "$HOME/Tools/mbadolato/iTerm2-Color-Schemes"
+fi
+
+fancy_echo "git clone dircolors solarized"
+if [ ! -d "$HOME/Tools/seebi/dircolors-solarized" ]; then
+  git clone git@github.com:seebi/dircolors-solarized.git "$HOME/Tools/seebi/dircolors-solarized"
+fi
+
+fancy_echo "git clone tmux powerline"
+if [ ! -d "$HOME/Tools/erikw/tmux-powerline" ]; then
+  git clone git@github.com:erikw/tmux-powerline.git "$HOME/Tools/erikw/tmux-powerline"
+fi
+
+fancy_echo "git clone useful zshrc"
+if [ ! -d "$HOME/Tools/mollifier/4979906" ]; then
+  git clone git@gist.github.com:4979906.git "$HOME/Tools/mollifier/4979906"
+fi
+
+fancy_echo "git clone tmux config"
+if [ ! -d "$HOME/Tools/tony/tmux-config" ]; then
+  git clone git@github.com:tony/tmux-config.git "$HOME/Tools/tony/tmux-config"
+fi
+
+fancy_echo "Create $HOME/bin directory"
+if [ ! -d "$HOME/bin" ]; then
+  mkdir "$HOME/bin"
+fi
+
+fancy_echo "Create symbolic links on $HOME"
+for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
+  dot_filename=$(basename "$dot_file")
+  ln -sf "$dot_file" "$HOME/$dot_filename"
+done
+if [ ! -L "$HOME/.vim" ]; then
+  ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.vim"
+fi
+if [ ! -L "$HOME/.dotfiles" ]; then
+  ln -s "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
+fi
+
+fancy_echo "Create symbolic links on $HOME/bin"
+ln -sf "$HOME/Tools/diceware/diceware.rb" "$HOME/bin/diceware.rb"
+ln -sf "$HOME/Tools/diceware/diceware.wordlist.asc" "$HOME/bin/diceware.wordlist.asc"
+for bin_file in "$HOME"/Tools/dotfiles/bin/*; do
+  bin_filename=$(basename "$bin_file")
+  ln -sf "$bin_file" "$HOME/bin/$bin_filename"
+done
+
+fancy_echo "Create $HOME/Applications directory"
+if [ ! -d "$HOME/Applications" ]; then
+  mkdir "$HOME/Applications"
+fi
+
+fancy_echo "Create $HOME/Develop directory"
+if [ ! -d "$HOME/Develop" ]; then
+  mkdir "$HOME/Develop"
+fi
+
+fancy_echo "Create $HOME/Screenshots directory"
+if [ ! -d "$HOME/Screenshots" ]; then
+  mkdir "$HOME/Screenshots"
+fi
+
+fancy_echo "Change screencapture store directory"
+defaults write com.apple.screencapture location "$HOME/Screenshots"
+killall SystemUIServer
+
+fancy_echo "Create $HOME/tmp directory"
+if [ ! -d "$HOME/tmp" ]; then
+  mkdir "$HOME/tmp"
+fi
+
+fancy_echo "Install oh-my-zsh"
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+fi
+
+fancy_echo "Create symbolic links in custom oh-my-zsh templates and customs"
+ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/themes/machupicchubeta.zsh-theme" "$HOME/.oh-my-zsh/themes/machupicchubeta.zsh-theme"
+ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
+
+fancy_echo "Create Homebrew directory and Change the owner"
+HOMEBREW_PREFIX="/usr/local"
+
+if [ -d "$HOMEBREW_PREFIX" ]; then
+  if ! [ -r "$HOMEBREW_PREFIX" ]; then
+    sudo chown -R "$LOGNAME:admin" /usr/local
+  fi
+else
+  sudo mkdir "$HOMEBREW_PREFIX"
+  sudo chflags norestricted "$HOMEBREW_PREFIX"
+  sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
+fi
+
+fancy_echo "Install Homebrew"
+if [ ! -x "$(command -v brew)" ]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+brew update
+brew upgrade --fetch-HEAD
+
+fancy_echo "Create '/etc/my.cnf' symbolic link"
+if [ ! -L "/etc/my.cnf" ]; then
+  sudo ln -s "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
+fi
+
+fancy_echo "Create '$HOME/.pip' directory"
+if [ ! -d "$HOME/.pip" ]; then
+  mkdir "$HOME/.pip"
+fi
+
+fancy_echo "Create '$HOME/.pip/pip.conf' symbolic link"
+if [ ! -L "$HOME/.pip/pip.conf" ]; then
+  ln -s "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
+fi
+
+fancy_echo "Create '$HOME/.rbenv' directory"
+if [ ! -d "$HOME/.rbenv" ]; then
+  mkdir "$HOME/.rbenv"
+fi
+
+fancy_echo "Create '$HOME/.rbenv/default-gems' symbolic link"
+if [ ! -L "$HOME/.rbenv/default-gems" ]; then
+  ln -s "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
+fi
+
+fancy_echo "Create '$HOME/.bundle' directory"
+if [ ! -d "$HOME/.bundle" ]; then
+  mkdir "$HOME/.bundle"
+fi
+fancy_echo "Create '$HOME/.bundle/config' symbolic link"
+if [ ! -L "$HOME/.bundle/config" ]; then
+  ln -s "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
+fi
+
+fancy_echo "Install latest Ruby via rbenv"
+brew install openssl --force
+if ! [[ $(brew info openssl | grep 'Not installed') ]]; then brew unlink openssl; fi
+brew link openssl --force
+brew install readline --force
+brew install ruby-build --HEAD
+brew install rbenv --HEAD
+brew link rbenv
+brew install rbenv-default-gems
+
+latest_ruby_version='2.5.1'
+if ! [[ $(rbenv version | grep $latest_ruby_version) ]]; then
+  rbenv install $latest_ruby_version
+fi
+rbenv global $latest_ruby_version
+rbenv rehash
+
+fancy_echo "Install latest Python via pyenv"
+brew install pyenv --HEAD
+
+latest_python2_version='2.7.14'
+if ! [[ $(pyenv version | grep $latest_python2_version) ]]; then
+  pyenv install $latest_python2_version
+fi
+
+latest_python3_version='3.6.5'
+if ! [[ $(pyenv version | grep $latest_python3_version) ]]; then
+  pyenv install $latest_python3_version
+fi
+pyenv global $latest_python2_version $latest_python3_version
+pyenv rehash
+
+fancy_echo "Install latest git"
+brew install git
+
+fancy_echo "Install latest zsh"
+brew install zsh
+
+fancy_echo "Install latest vim"
+if ! [[ $(brew info vim | grep 'Not installed') ]]; then brew unlink vim; fi
+brew install vim --with-luajit --with-python3 --HEAD --with-override-system-vi
+brew link vim --force
+
+fancy_echo "Install Libraries and Tools via homebrew"
+. "$HOME/Tools/dotfiles/bin/brewfile.sh"
+
+fancy_echo "Load $HOME/.laptop.local"
+if [ -f "$HOME/.laptop.local" ]; then
+  . "$HOME/.laptop.local"
+fi
+
+eval $(ssh-agent)
+
+fancy_echo "Use zsh"
+zsh
+source "$HOME"/.zshrc
