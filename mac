@@ -71,6 +71,9 @@ done
 if [ ! -L "$HOME/.vim" ]; then
   ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.vim"
 fi
+if [ ! -L "$HOME/.config/nvim" ]; then
+  ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.config/nvim"
+fi
 if [ ! -L "$HOME/.dotfiles" ]; then
   ln -s "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
 fi
