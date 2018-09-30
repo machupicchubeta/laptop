@@ -191,15 +191,10 @@ rbenv rehash
 fancy_echo "Install latest Python via pyenv"
 brew install pyenv --HEAD
 
-latest_python2_version='2.7.15'
-if ! [[ $(pyenv version | grep $latest_python2_version) ]]; then
-  pyenv install $latest_python2_version
-fi
-
-latest_python3_version='3.7.0'
-if ! [[ $(pyenv version | grep $latest_python3_version) ]]; then
-  pyenv install $latest_python3_version
-fi
+latest_python2_version=$(pyenv install -l | grep -E '^\s+2\.\d+\.\d+$' | tail -n 1)
+latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
+pyenv install $latest_python2_version
+pyenv install $latest_python3_version
 pyenv global $latest_python2_version $latest_python3_version
 pyenv rehash
 
