@@ -212,7 +212,7 @@ if [ ! -d "$HOME/.plenv" ]; then
   mkdir "$HOME/.plenv"
 fi
 git clone git://github.com/tokuhirom/Perl-Build.git $(plenv root)/plugins/perl-build/
-latest_perl5_version=$(plenv install -l | grep -E '^\s+5\.\d+\.\d+$' | awk -F'[.]' '{ if ($2 %2 == 0) print $0 }' | head -n 1)
+latest_perl5_version=$(plenv install -l | grep -E '^\s+5\.\d+\.\d+$' | awk -F'[.]' '{ if ($2 %2 == 0) print $0 }' | head -n 1 | sed -e 's/^[ ]*//g')
 plenv install $latest_perl5_version
 plenv global $latest_perl5_version
 plenv rehash
