@@ -71,6 +71,9 @@ if [ ! -d "$HOME/bin" ]; then
   mkdir "$HOME/bin"
 fi
 
+fancy_echo "Copy SFMono fonts to User font directory"
+cp -f /Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
+
 fancy_echo "Create symbolic links on $HOME"
 for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
   dot_filename=$(basename "$dot_file")
