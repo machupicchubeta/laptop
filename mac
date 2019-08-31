@@ -66,6 +66,11 @@ if [ ! -d "$HOME/Tools/b4b4r07/enhancd" ]; then
   git clone git@github.com:b4b4r07/enhancd.git "$HOME/Tools/b4b4r07/enhancd"
 fi
 
+fancy_echo "git clone spaceship-prompt"
+if [ ! -d "$HOME/Tools/denysdovhan/spaceship-prompt" ]; then
+  git clone git@github.com:denysdovhan/spaceship-prompt.git "%HOME/Tools/denysdovhan/spaceship-prompt"
+fi
+
 fancy_echo "Create $HOME/bin directory"
 if [ ! -d "$HOME/bin" ]; then
   mkdir "$HOME/bin"
@@ -243,7 +248,7 @@ eval $(ssh-agent)
 
 fancy_echo "Create symbolic links in custom oh-my-zsh templates and customs"
 if [ -d "$HOME/.oh-my-zsh" ]; then
-  ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/themes/machupicchubeta.zsh-theme" "$HOME/.oh-my-zsh/themes/machupicchubeta.zsh-theme"
+  ln -sf "$HOME/Tools/denysdovhan/spaceship-prompt/spaceship.zsh-theme" "$HOME/.oh-my-zsh/themes/spaceship.zsh-theme"
   ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
 fi
 
