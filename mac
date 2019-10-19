@@ -218,7 +218,9 @@ if [ ! -d "$(plenv root)/plugins/perl-build" ]; then
   git clone git://github.com/tokuhirom/Perl-Build.git $(plenv root)/plugins/perl-build/
 fi
 latest_perl5_version=$(plenv install -l | grep -E '^\s+5\.\d+\.\d+$' | awk -F'[.]' '{ if ($2 %2 == 0) print $0 }' | head -n 1 | sed -e 's/^[ ]*//g')
-plenv install $latest_perl5_version
+if ! [[ $(plenv versions | grep $latest_perl5_version) ]]; then
+  plenv install $latest_perl5_version
+fi
 plenv global $latest_perl5_version
 plenv rehash
 
