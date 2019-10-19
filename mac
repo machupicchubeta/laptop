@@ -9,9 +9,13 @@ set -e
 
 cd "$HOME"
 
-# fancy_echo "Install Xcode command line tools if you don't installed yet"
-# xcode-select --install
-# sudo xcodebuild -license
+fancy_echo "Install Xcode command line tools if you don't installed yet"
+if ! [[ $(xcode-select -v | grep -E '^xcode-select version \d+\.$') ]]; then
+  xcode-select --install
+fi
+if ! [[ $(xcodebuild -version | grep -E '^Xcode \d+\.\d+$') ]]; then
+  sudo xcodebuild -license
+fi
 
 # It seems that the latest version of xcode-select (2354) does not include macOS SDK header for Mojave by default.
 sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
