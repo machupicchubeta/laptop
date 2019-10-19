@@ -195,9 +195,7 @@ brew link rbenv
 brew install rbenv-default-gems
 
 latest_ruby_version=$(rbenv install -l | grep -E '^\s+(\d+\.\d+)\.\d+$' | tail -n 1)
-if ! [[ $(rbenv version | grep $latest_ruby_version) ]]; then
-  rbenv install $latest_ruby_version
-fi
+rbenv install --skip-existing $latest_ruby_version
 rbenv global $latest_ruby_version
 rbenv rehash
 
@@ -206,8 +204,8 @@ brew install pyenv --HEAD
 
 latest_python2_version=$(pyenv install -l | grep -E '^\s+2\.\d+\.\d+$' | tail -n 1)
 latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
-pyenv install $latest_python2_version
-pyenv install $latest_python3_version
+pyenv install --skip-existing $latest_python2_version
+pyenv install --skip-existing $latest_python3_version
 pyenv global $latest_python3_version $latest_python2_version
 pyenv rehash
 
