@@ -224,17 +224,6 @@ fi
 plenv global $latest_perl5_version
 plenv rehash
 
-fancy_echo "Install latest git"
-brew install git
-
-fancy_echo "Install latest zsh"
-brew install zsh
-
-fancy_echo "Install latest vim"
-if ! [[ $(brew info vim | grep 'Not installed') ]]; then brew unlink vim; fi
-brew install vim --with-luajit --with-python3 --HEAD --with-override-system-vi
-brew link vim --force
-
 fancy_echo "Install Libraries and Tools via homebrew"
 . "$HOME/Tools/dotfiles/bin/brewfile.sh"
 
