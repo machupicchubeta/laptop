@@ -200,7 +200,7 @@ rbenv global $latest_ruby_version
 rbenv rehash
 
 fancy_echo "Install latest Python via pyenv"
-brew install pyenv --HEAD
+brew install pyenv
 
 latest_python2_version=$(pyenv install -l | grep -E '^\s+2\.\d+\.\d+$' | tail -n 1)
 latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
