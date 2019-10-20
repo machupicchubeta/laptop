@@ -147,9 +147,6 @@ if [ ! -x "$(command -v brew)" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-brew update
-brew upgrade --fetch-HEAD
-
 fancy_echo "Create '/etc/my.cnf' symbolic link"
 if [ ! -L "/etc/my.cnf" ]; then
   sudo ln -s "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
@@ -184,24 +181,16 @@ if [ ! -L "$HOME/.bundle/config" ]; then
   ln -s "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
 fi
 
-fancy_echo "Install latest Ruby via rbenv"
-brew install openssl --force
-if ! [[ $(brew info openssl | grep 'Not installed') ]]; then brew unlink openssl; fi
-brew link openssl --force
-brew install readline --force
-brew install ruby-build --HEAD
-brew install rbenv --HEAD
-brew link rbenv
-brew install rbenv-default-gems
+fancy_echo "Install Libraries and Tools via Homebrew"
+bash $HOME/Tools/dotfiles/bin/brewfile.sh
 
+fancy_echo "Install latest Ruby via rbenv"
 latest_ruby_version=$(rbenv install -l | grep -E '^\s+(\d+\.\d+)\.\d+$' | tail -n 1)
 rbenv install --skip-existing $latest_ruby_version
 rbenv global $latest_ruby_version
 rbenv rehash
 
 fancy_echo "Install latest Python via pyenv"
-brew install pyenv
-
 latest_python2_version=$(pyenv install -l | grep -E '^\s+2\.\d+\.\d+$' | tail -n 1)
 latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
 pyenv install --skip-existing $latest_python2_version
@@ -210,7 +199,6 @@ pyenv global $latest_python3_version $latest_python2_version
 pyenv rehash
 
 fancy_echo "Install latest perl"
-brew install plenv
 if [ ! -d "$HOME/.plenv" ]; then
   mkdir "$HOME/.plenv"
 fi
@@ -223,9 +211,6 @@ if ! [[ $(plenv versions | grep $latest_perl5_version) ]]; then
 fi
 plenv global $latest_perl5_version
 plenv rehash
-
-fancy_echo "Install Libraries and Tools via homebrew"
-bash $HOME/Tools/dotfiles/bin/brewfile.sh
 
 fancy_echo "Load $HOME/.laptop.local"
 if [ -f "$HOME/.laptop.local" ]; then
