@@ -225,7 +225,7 @@ plenv global $latest_perl5_version
 plenv rehash
 
 fancy_echo "Install Libraries and Tools via homebrew"
-. "$HOME/Tools/dotfiles/bin/brewfile.sh"
+bash $HOME/Tools/dotfiles/bin/brewfile.sh
 
 fancy_echo "Load $HOME/.laptop.local"
 if [ -f "$HOME/.laptop.local" ]; then
