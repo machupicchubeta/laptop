@@ -231,3 +231,6 @@ ln -sf $(brew --prefix)/opt/zplug/repos/denysdovhan/spaceship-prompt/spaceship.z
 fancy_echo "Create symbolic links to zshrc-useful in oh-my-zsh custom"
 ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
 
+fancy_echo "Change default shell"
+chsh -s $(which zsh)
+
