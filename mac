@@ -9,7 +9,7 @@ set -e
 
 cd "$HOME"
 
-fancy_echo "Install Xcode command line tools if you don't installed yet"
+fancy_echo "Install Xcode command line tools"
 if ! [[ $(xcode-select -v | grep -E '^xcode-select version \d+\.$') ]]; then
   xcode-select --install
 fi
@@ -17,118 +17,8 @@ if ! [[ $(xcodebuild -version | grep -E '^Xcode \d+\.\d+$') ]]; then
   sudo xcodebuild -license
 fi
 
-fancy_echo "Create $HOME/Tools directory"
-if [ ! -d "$HOME/Tools" ]; then
-  mkdir "$HOME/Tools"
-fi
-
-fancy_echo "git clone dotfiles repository"
-if [ ! -d "$HOME/Tools/dotfiles" ]; then
-  git clone git@github.com:machupicchubeta/dotfiles.git "$HOME/Tools/dotfiles"
-fi
-
-fancy_echo "git clone diceware repository"
-if [ ! -d "$HOME/Tools/diceware" ]; then
-  git clone git@github.com:machupicchubeta/diceware.git "$HOME/Tools/diceware"
-fi
-
-fancy_echo "git clone solarized repository"
-if [ ! -d "$HOME/Tools/altercation/solarized" ]; then
-  git clone git@github.com:altercation/solarized.git "$HOME/Tools/altercation/solarized"
-fi
-
-fancy_echo "git clone iterm2 color schemes"
-if [ ! -d "$HOME/Tools/mbadolato/iTerm2-Color-Schemes" ]; then
-  git clone git@github.com:mbadolato/iTerm2-Color-Schemes.git "$HOME/Tools/mbadolato/iTerm2-Color-Schemes"
-fi
-
-fancy_echo "git clone dircolors solarized"
-if [ ! -d "$HOME/Tools/seebi/dircolors-solarized" ]; then
-  git clone git@github.com:seebi/dircolors-solarized.git "$HOME/Tools/seebi/dircolors-solarized"
-fi
-
-fancy_echo "git clone tmux powerline"
-if [ ! -d "$HOME/Tools/erikw/tmux-powerline" ]; then
-  git clone git@github.com:erikw/tmux-powerline.git "$HOME/Tools/erikw/tmux-powerline"
-fi
-
-fancy_echo "git clone useful zshrc"
-if [ ! -d "$HOME/Tools/mollifier/4979906" ]; then
-  git clone git@gist.github.com:4979906.git "$HOME/Tools/mollifier/4979906"
-fi
-
-fancy_echo "git clone tmux config"
-if [ ! -d "$HOME/Tools/tony/tmux-config" ]; then
-  git clone git@github.com:tony/tmux-config.git "$HOME/Tools/tony/tmux-config"
-fi
-
-fancy_echo "Create $HOME/bin directory"
-if [ ! -d "$HOME/bin" ]; then
-  mkdir "$HOME/bin"
-fi
-
-fancy_echo "Copy SFMono fonts to User font directory"
-cp -f /Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
-
-fancy_echo "Create symbolic links on $HOME"
-for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
-  dot_filename=$(basename "$dot_file")
-  ln -sf "$dot_file" "$HOME/$dot_filename"
-done
-if [ ! -L "$HOME/.vim" ]; then
-  ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.vim"
-fi
-if [ ! -d "$HOME/.config" ]; then
-  mkdir "$HOME/.config"
-fi
-if [ ! -L "$HOME/.config/nvim" ]; then
-  ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.config/nvim"
-fi
-if [ ! -L "$HOME/.dotfiles" ]; then
-  ln -s "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
-fi
-if [ ! -d "$HOME/.ctags.d" ]; then
-  mkdir "$HOME/.ctags.d"
-fi
-if [ ! -L "$HOME/.ctags.d/default.ctags" ]; then
-  ln -s "$HOME/Tools/dotfiles/.ctags.d/default.ctags" "$HOME/.ctags.d/default.ctags"
-fi
-
-fancy_echo "Create symbolic links on $HOME/bin"
-ln -sf "$HOME/Tools/diceware/diceware.rb" "$HOME/bin/diceware.rb"
-ln -sf "$HOME/Tools/diceware/diceware.wordlist.asc" "$HOME/bin/diceware.wordlist.asc"
-for bin_file in "$HOME"/Tools/dotfiles/bin/*; do
-  bin_filename=$(basename "$bin_file")
-  ln -sf "$bin_file" "$HOME/bin/$bin_filename"
-done
-
-fancy_echo "Create $HOME/Applications directory"
-if [ ! -d "$HOME/Applications" ]; then
-  mkdir "$HOME/Applications"
-fi
-
-fancy_echo "Create $HOME/Develop directory"
-if [ ! -d "$HOME/Develop" ]; then
-  mkdir "$HOME/Develop"
-fi
-
-fancy_echo "Create $HOME/Screenshots directory"
-if [ ! -d "$HOME/Screenshots" ]; then
-  mkdir "$HOME/Screenshots"
-fi
-
-fancy_echo "Change screencapture store directory"
-defaults write com.apple.screencapture location "$HOME/Screenshots"
-killall SystemUIServer
-
-fancy_echo "Create $HOME/tmp directory"
-if [ ! -d "$HOME/tmp" ]; then
-  mkdir "$HOME/tmp"
-fi
-
-fancy_echo "Create Homebrew directory and Change the owner"
+fancy_echo "Install Homebrew"
 HOMEBREW_PREFIX="/usr/local"
-
 if [ -d "$HOMEBREW_PREFIX" ]; then
   if ! [ -r "$HOMEBREW_PREFIX" ]; then
     sudo chown -R "$LOGNAME:admin" /usr/local
@@ -138,56 +28,125 @@ else
   sudo chflags norestricted "$HOMEBREW_PREFIX"
   sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
 fi
-
-fancy_echo "Install Homebrew"
 if [ ! -x "$(command -v brew)" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-fancy_echo "Create '/etc/my.cnf' symbolic link"
-if [ ! -L "/etc/my.cnf" ]; then
-  sudo ln -s "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
+fancy_echo "Install commands and Apps"
+bash $HOME/Tools/dotfiles/bin/brewfile.sh
+
+fancy_echo "Install oh-my-zsh"
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 fi
 
-fancy_echo "Create '$HOME/.pip' directory"
-if [ ! -d "$HOME/.pip" ]; then
-  mkdir "$HOME/.pip"
-fi
-
-fancy_echo "Create '$HOME/.pip/pip.conf' symbolic link"
-if [ ! -L "$HOME/.pip/pip.conf" ]; then
-  ln -s "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
-fi
-
-fancy_echo "Create '$HOME/.rbenv' directory"
-if [ ! -d "$HOME/.rbenv" ]; then
-  mkdir "$HOME/.rbenv"
-fi
-
-fancy_echo "Create '$HOME/.rbenv/default-gems' symbolic link"
-if [ ! -L "$HOME/.rbenv/default-gems" ]; then
-  ln -s "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
-fi
-
-fancy_echo "Create '$HOME/.bundle' directory"
+fancy_echo "Create directories"
 if [ ! -d "$HOME/.bundle" ]; then
   mkdir "$HOME/.bundle"
 fi
-fancy_echo "Create '$HOME/.bundle/config' symbolic link"
-if [ ! -L "$HOME/.bundle/config" ]; then
-  ln -s "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
+if [ ! -d "$HOME/.config" ]; then
+  mkdir "$HOME/.config"
+fi
+if [ ! -d "$HOME/.ctags.d" ]; then
+  mkdir "$HOME/.ctags.d"
+fi
+if [ ! -d "$HOME/.pip" ]; then
+  mkdir "$HOME/.pip"
+fi
+if [ ! -d "$HOME/.plenv" ]; then
+  mkdir "$HOME/.plenv"
+fi
+if [ ! -d "$HOME/.rbenv" ]; then
+  mkdir "$HOME/.rbenv"
+fi
+if [ ! -d "$HOME/bin" ]; then
+  mkdir "$HOME/bin"
+fi
+if [ ! -d "$HOME/tmp" ]; then
+  mkdir "$HOME/tmp"
+fi
+if [ ! -d "$HOME/Applications" ]; then
+  mkdir "$HOME/Applications"
+fi
+if [ ! -d "$HOME/Develop" ]; then
+  mkdir "$HOME/Develop"
+fi
+if [ ! -d "$HOME/Screenshots" ]; then
+  mkdir "$HOME/Screenshots"
+fi
+if [ ! -d "$HOME/Tools" ]; then
+  mkdir "$HOME/Tools"
 fi
 
-fancy_echo "Install Libraries and Tools via Homebrew"
-bash $HOME/Tools/dotfiles/bin/brewfile.sh
+fancy_echo "Change screencapture store directory"
+defaults write com.apple.screencapture location "$HOME/Screenshots"
+killall SystemUIServer
 
-fancy_echo "Install latest Ruby via rbenv"
+fancy_echo "Copy SFMono fonts to User font directory"
+cp -f /Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
+
+fancy_echo "Download settings"
+if [ ! -d "$HOME/Tools/dotfiles" ]; then
+  git clone git@github.com:machupicchubeta/dotfiles.git "$HOME/Tools/dotfiles"
+fi
+if [ ! -d "$HOME/Tools/diceware" ]; then
+  git clone git@github.com:machupicchubeta/diceware.git "$HOME/Tools/diceware"
+fi
+if [ ! -d "$HOME/Tools/altercation/solarized" ]; then
+  git clone git@github.com:altercation/solarized.git "$HOME/Tools/altercation/solarized"
+fi
+if [ ! -d "$HOME/Tools/mbadolato/iTerm2-Color-Schemes" ]; then
+  git clone git@github.com:mbadolato/iTerm2-Color-Schemes.git "$HOME/Tools/mbadolato/iTerm2-Color-Schemes"
+fi
+if [ ! -d "$HOME/Tools/seebi/dircolors-solarized" ]; then
+  git clone git@github.com:seebi/dircolors-solarized.git "$HOME/Tools/seebi/dircolors-solarized"
+fi
+if [ ! -d "$HOME/Tools/erikw/tmux-powerline" ]; then
+  git clone git@github.com:erikw/tmux-powerline.git "$HOME/Tools/erikw/tmux-powerline"
+fi
+if [ ! -d "$HOME/Tools/mollifier/4979906" ]; then
+  git clone git@gist.github.com:4979906.git "$HOME/Tools/mollifier/4979906"
+fi
+if [ ! -d "$HOME/Tools/tony/tmux-config" ]; then
+  git clone git@github.com:tony/tmux-config.git "$HOME/Tools/tony/tmux-config"
+fi
+if [ ! -d "$(plenv root)/plugins/perl-build" ]; then
+  git clone git://github.com/tokuhirom/Perl-Build.git $(plenv root)/plugins/perl-build/
+fi
+
+fancy_echo "Apply settings"
+sudo ln -sf "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
+ln -sf "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
+ln -sf "$HOME/Tools/dotfiles/.vim" "$HOME/.vim"
+ln -sf "$HOME/Tools/dotfiles/.vim" "$HOME/.config/nvim"
+ln -sf "$HOME/Tools/dotfiles/.ctags.d/default.ctags" "$HOME/.ctags.d/default.ctags"
+if [ -L "$HOME/.zshrc.pre-oh-my-zsh" ]; then
+  unlink "$HOME/.zshrc.pre-oh-my-zsh"
+fi
+if [ -e "$HOME/.zshrc" ]; then
+  mv "$HOME/.zshrc" "$HOME/.zshrc_$(date +%Y-%m-%dT%H:%M:%S%z)"
+fi
+for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
+  dot_filename=$(basename "$dot_file")
+  ln -sf "$dot_file" "$HOME/$dot_filename"
+done
+ln -sf "$HOME/Tools/diceware/diceware.rb" "$HOME/bin/diceware.rb"
+ln -sf "$HOME/Tools/diceware/diceware.wordlist.asc" "$HOME/bin/diceware.wordlist.asc"
+for bin_file in "$HOME"/Tools/dotfiles/bin/*; do
+  bin_filename=$(basename "$bin_file")
+  ln -sf "$bin_file" "$HOME/bin/$bin_filename"
+done
+ln -sf "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
+ln -sf "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
+ln -sf "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
+
+fancy_echo "Install latest Ruby"
 latest_ruby_version=$(rbenv install -l | grep -E '^\s+(\d+\.\d+)\.\d+$' | tail -n 1)
 rbenv install --skip-existing $latest_ruby_version
 rbenv global $latest_ruby_version
 rbenv rehash
 
-fancy_echo "Install latest Python via pyenv"
+fancy_echo "Install latest Python"
 latest_python2_version=$(pyenv install -l | grep -E '^\s+2\.\d+\.\d+$' | tail -n 1)
 latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
 pyenv install --skip-existing $latest_python2_version
@@ -196,12 +155,6 @@ pyenv global $latest_python3_version $latest_python2_version
 pyenv rehash
 
 fancy_echo "Install latest perl"
-if [ ! -d "$HOME/.plenv" ]; then
-  mkdir "$HOME/.plenv"
-fi
-if [ ! -d "$(plenv root)/plugins/perl-build" ]; then
-  git clone git://github.com/tokuhirom/Perl-Build.git $(plenv root)/plugins/perl-build/
-fi
 latest_perl5_version=$(plenv install -l | grep -E '^\s+5\.\d+\.\d+$' | awk -F'[.]' '{ if ($2 %2 == 0) print $0 }' | head -n 1 | sed -e 's/^[ ]*//g')
 if ! [[ $(plenv versions | grep $latest_perl5_version) ]]; then
   plenv install $latest_perl5_version
@@ -209,25 +162,13 @@ fi
 plenv global $latest_perl5_version
 plenv rehash
 
-fancy_echo "Load $HOME/.laptop.local"
+fancy_echo "Apply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
 
-eval $(ssh-agent)
+fancy_echo "Run ssh-agent"
+eval "$(ssh-agent -s)"
 
-fancy_echo "Install oh-my-zsh"
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-fi
-
-fancy_echo "Use Spaceship as prompt theme"
-zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-ln -sf $(brew --prefix)/opt/zplug/repos/denysdovhan/spaceship-prompt/spaceship.zsh-theme "$HOME/.oh-my-zsh/themes/spaceship.zsh-theme"
-
-fancy_echo "Create symbolic links to zshrc-useful in oh-my-zsh custom"
-ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
-
-fancy_echo "Change default shell"
+fancy_echo "Use zsh as default shell"
 chsh -s $(which zsh)
-
