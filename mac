@@ -17,9 +17,6 @@ if ! [[ $(xcodebuild -version | grep -E '^Xcode \d+\.\d+$') ]]; then
   sudo xcodebuild -license
 fi
 
-# It seems that the latest version of xcode-select (2354) does not include macOS SDK header for Mojave by default.
-sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
-
 fancy_echo "Create $HOME/Tools directory"
 if [ ! -d "$HOME/Tools" ]; then
   mkdir "$HOME/Tools"
