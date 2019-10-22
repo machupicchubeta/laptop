@@ -116,9 +116,18 @@ fi
 
 fancy_echo "Apply settings"
 sudo ln -sf "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
-ln -sf "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
-ln -sf "$HOME/Tools/dotfiles/.vim" "$HOME/.vim"
-ln -sf "$HOME/Tools/dotfiles/.vim" "$HOME/.config/nvim"
+if [ -L "$HOME/.dotfiles" ]; then
+  unlink "$HOME/.dotfiles"
+fi
+ln -s "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
+if [ -L "$HOME/.vim" ]; then
+  unlink "$HOME/.vim"
+fi
+ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.vim"
+if [ -L "$HOME/.config/nvim" ]; then
+  unlink "$HOME/.config/nvim"
+fi
+ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.config/nvim"
 ln -sf "$HOME/Tools/dotfiles/.ctags.d/default.ctags" "$HOME/.ctags.d/default.ctags"
 if [ -L "$HOME/.zshrc.pre-oh-my-zsh" ]; then
   unlink "$HOME/.zshrc.pre-oh-my-zsh"
