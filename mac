@@ -156,11 +156,9 @@ rbenv global $latest_ruby_version
 rbenv rehash
 
 fancy_echo "Install latest Python"
-latest_python2_version=$(pyenv install -l | grep -E '^\s+2\.\d+\.\d+$' | tail -n 1)
 latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
-pyenv install --skip-existing $latest_python2_version
 pyenv install --skip-existing $latest_python3_version
-pyenv global $latest_python3_version $latest_python2_version
+pyenv global $latest_python3_version
 pyenv rehash
 
 fancy_echo "Install latest perl"
