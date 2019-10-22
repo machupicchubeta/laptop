@@ -219,13 +219,18 @@ fi
 
 eval $(ssh-agent)
 
-fancy_echo "Create symbolic links in custom oh-my-zsh templates and customs"
-if [ -d "$HOME/.oh-my-zsh" ]; then
-  ln -sf $(brew --prefix)/opt/zplug/repos/denysdovhan/spaceship-prompt/spaceship.zsh-theme "$HOME/.oh-my-zsh/themes/spaceship.zsh-theme"
-  ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
-fi
-
 fancy_echo "Install oh-my-zsh"
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 fi
+
+fancy_echo "Use Spaceship as prompt theme"
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+ln -sf $(brew --prefix)/opt/zplug/repos/denysdovhan/spaceship-prompt/spaceship.zsh-theme "$HOME/.oh-my-zsh/themes/spaceship.zsh-theme"
+
+fancy_echo "Create symbolic links to zshrc-useful in oh-my-zsh custom"
+ln -sf "$HOME/Tools/dotfiles/oh-my-zsh/custom/zshrc-useful.zsh" "$HOME/.oh-my-zsh/custom/zshrc-useful.zsh"
+
+fancy_echo "Change default shell"
+chsh -s $(which zsh)
+
