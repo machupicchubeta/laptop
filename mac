@@ -171,4 +171,5 @@ fancy_echo "Run ssh-agent"
 eval "$(ssh-agent -s)"
 
 fancy_echo "Use zsh as default shell"
+echo "$(which zsh)" | sudo tee -a /etc/shells
 chsh -s $(which zsh)
