@@ -5,7 +5,7 @@ fancy_echo() {
   printf "\n$fmt\n" "$@"
 }
 
-set -e
+set -eu
 
 cd "$HOME"
 
