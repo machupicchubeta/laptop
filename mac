@@ -178,6 +178,7 @@ fancy_echo "Run ssh-agent"
 eval "$(ssh-agent -s)"
 
 fancy_echo "Use Spaceship as prompt theme"
+if which direnv > /dev/null; then direnv allow; fi
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 ln -sf $(brew --prefix)/opt/zplug/repos/denysdovhan/spaceship-prompt/spaceship.zsh-theme "$HOME/.oh-my-zsh/themes/spaceship.zsh-theme"
 
