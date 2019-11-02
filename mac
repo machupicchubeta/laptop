@@ -185,7 +185,3 @@ fancy_echo "Start to use zsh"
 zsh
 if which direnv > /dev/null; then direnv allow; fi
 
-fancy_echo "Use Spaceship as prompt theme"
-zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-ln -sf $(brew --prefix)/opt/zplug/repos/denysdovhan/spaceship-prompt/spaceship.zsh-theme "$HOME/.oh-my-zsh/themes/spaceship.zsh-theme"
-
