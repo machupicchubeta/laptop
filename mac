@@ -65,6 +65,10 @@ echo "\nCopy SFMono fonts to User font directory\n"
 cp -f /Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
 
 echo "\nDownload settings\n"
+SETUP_PATH="$HOME/setup"
+if [ ! -e $SETUP_PATH/laptop/mac ]; then
+  mkdir -p $SETUP_PATH && cd $SETUP_PATH && git clone git@github.com:machupicchubeta/laptop.git
+fi
 if [ ! -d "$HOME/Tools/dotfiles" ]; then
   git clone git@github.com:machupicchubeta/dotfiles.git "$HOME/Tools/dotfiles"
 fi
