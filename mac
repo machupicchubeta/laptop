@@ -1,32 +1,25 @@
 #!/bin/bash
-
-fancy_echo() {
-  local fmt="$1"; shift
-  printf "\n$fmt\n" "$@"
-}
-
 set -eu
-
 cd "$HOME"
 
-fancy_echo "Install Xcode command line tools"
+echo "\nInstall Xcode command line tools\n"
 sudo xcodebuild -license
 xcode-select --install
 
-fancy_echo "Install Homebrew"
+echo "\nInstall Homebrew\n"
 if [ ! -x "$(command -v brew)" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-fancy_echo "Install commands and Apps"
+echo "\nInstall commands and Apps\n"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/brewfile.sh)
 
-fancy_echo "Install oh-my-zsh"
+echo "\nInstall oh-my-zsh\n"
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 fi
 
-fancy_echo "Create directories"
+echo "\nCreate directories\n"
 if [ ! -d "$HOME/.bundle" ]; then
   mkdir "$HOME/.bundle"
 fi
@@ -64,14 +57,14 @@ if [ ! -d "$HOME/Tools" ]; then
   mkdir "$HOME/Tools"
 fi
 
-fancy_echo "Change screencapture store directory"
+echo "\nChange screencapture store directory\n"
 defaults write com.apple.screencapture location "$HOME/Screenshots"
 killall SystemUIServer
 
-fancy_echo "Copy SFMono fonts to User font directory"
+echo "\nCopy SFMono fonts to User font directory\n"
 cp -f /Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
 
-fancy_echo "Download settings"
+echo "\nDownload settings\n"
 if [ ! -d "$HOME/Tools/dotfiles" ]; then
   git clone git@github.com:machupicchubeta/dotfiles.git "$HOME/Tools/dotfiles"
 fi
@@ -100,7 +93,7 @@ if [ ! -d "$(plenv root)/plugins/perl-build" ]; then
   git clone git://github.com/tokuhirom/Perl-Build.git $(plenv root)/plugins/perl-build/
 fi
 
-fancy_echo "Apply settings"
+echo "\nApply settings\n"
 sudo ln -sf "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
 if [ -L "$HOME/.dotfiles" ]; then
   unlink "$HOME/.dotfiles"
@@ -135,19 +128,19 @@ ln -sf "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
 ln -sf "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
 ln -sf "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
 
-fancy_echo "Install latest Ruby"
+echo "\nInstall latest Ruby\n"
 latest_ruby_version=$(rbenv install -l | grep -E '^\s+(\d+\.\d+)\.\d+$' | tail -n 1)
 rbenv install --skip-existing $latest_ruby_version
 rbenv global $latest_ruby_version
 rbenv rehash
 
-fancy_echo "Install latest Python"
+echo "\nInstall latest Python\n"
 latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
 pyenv install --skip-existing $latest_python3_version
 pyenv global $latest_python3_version
 pyenv rehash
 
-fancy_echo "Install latest perl"
+echo "\nInstall latest perl\n"
 latest_perl5_version=$(plenv install -l | grep -E '^\s+5\.\d+\.\d+$' | awk -F'[.]' '{ if ($2 %2 == 0) print $0 }' | head -n 1 | sed -e 's/^[ ]*//g')
 if ! [[ $(plenv versions | grep $latest_perl5_version) ]]; then
   plenv install $latest_perl5_version
@@ -155,19 +148,19 @@ fi
 plenv global $latest_perl5_version
 plenv rehash
 
-fancy_echo "Apply private settings"
+echo "\nApply private settings\n"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
 
-fancy_echo "Run ssh-agent"
+echo "\nRun ssh-agent\n"
 eval "$(ssh-agent -s)"
 
-fancy_echo "Use zsh as default shell"
+echo "\nUse zsh as default shell\n"
 echo "$(which zsh)" | sudo tee -a /etc/shells
 chsh -s $(which zsh)
 
-fancy_echo "Start to use zsh"
+echo "\nStart to use zsh\n"
 zsh
 if which direnv > /dev/null; then direnv allow; fi
 
