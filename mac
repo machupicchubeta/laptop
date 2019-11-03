@@ -2,6 +2,14 @@
 set -eu
 cd "$HOME"
 
+echo "\nGenerate key pair\n"
+if [ ! -e "$HOME/.ssh/id_rsa" ]; then
+  read -p "email: " email
+  ssh-keygen -t rsa -b 4096 -C $email
+  eval "$(ssh-agent -s)"
+  ssh-add -K "$HOME/.ssh/id_rsa"
+fi
+
 echo "\nInstall Xcode command line tools\n"
 sudo xcodebuild -license
 xcode-select --install
@@ -156,9 +164,6 @@ echo "\nApply private settings\n"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
-
-echo "\nRun ssh-agent\n"
-eval "$(ssh-agent -s)"
 
 echo "\nUse zsh installed via Homebrew as default shell\n"
 echo "$(which zsh)" | sudo tee -a /etc/shells
