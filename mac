@@ -156,11 +156,8 @@ fi
 echo "\nRun ssh-agent\n"
 eval "$(ssh-agent -s)"
 
-echo "\nUse zsh as default shell\n"
+echo "\nUse zsh installed via Homebrew as default shell\n"
 echo "$(which zsh)" | sudo tee -a /etc/shells
 chsh -s $(which zsh)
-
-echo "\nStart to use zsh\n"
-zsh
 if which direnv > /dev/null; then direnv allow; fi
 
