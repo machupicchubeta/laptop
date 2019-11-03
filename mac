@@ -2,7 +2,7 @@
 set -eu
 cd "$HOME"
 
-echo "\nGenerate key pair\n"
+echo "Generate key pair"
 if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   read -p "email: " email
   ssh-keygen -t rsa -b 4096 -C $email
@@ -10,26 +10,26 @@ if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   ssh-add -K "$HOME/.ssh/id_rsa"
 fi
 
-echo "\nInstall Xcode command line tools\n"
+echo "Install Xcode command line tools"
 sudo xcodebuild -license
 if ! [[ $(xcode-select -v | grep -E '^xcode-select version \d+\.$') ]]; then
   xcode-select --install
 fi
 
-echo "\nInstall Homebrew\n"
+echo "Install Homebrew"
 if [ ! -x "$(command -v brew)" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-echo "\nInstall commands and Apps\n"
+echo "Install commands and Apps"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/brewfile.sh)
 
-echo "\nInstall oh-my-zsh\n"
+echo "Install oh-my-zsh"
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 fi
 
-echo "\nCreate directories\n"
+echo "Create directories"
 if [ ! -d "$HOME/.bundle" ]; then
   mkdir "$HOME/.bundle"
 fi
@@ -67,14 +67,14 @@ if [ ! -d "$HOME/Tools" ]; then
   mkdir "$HOME/Tools"
 fi
 
-echo "\nChange screencapture store directory\n"
+echo "Change screencapture store directory"
 defaults write com.apple.screencapture location "$HOME/Screenshots"
 killall SystemUIServer
 
-echo "\nCopy SFMono fonts to User font directory\n"
+echo "Copy SFMono fonts to User font directory"
 cp -f /System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
 
-echo "\nDownload settings\n"
+echo "Download settings"
 SETUP_PATH="$HOME/setup"
 if [ ! -e $SETUP_PATH/laptop/mac ]; then
   mkdir -p $SETUP_PATH && cd $SETUP_PATH && git clone git@github.com:machupicchubeta/laptop.git
@@ -107,7 +107,7 @@ if [ ! -d "$(plenv root)/plugins/perl-build" ]; then
   git clone git://github.com/tokuhirom/Perl-Build.git $(plenv root)/plugins/perl-build/
 fi
 
-echo "\nApply settings\n"
+echo "Apply settings"
 sudo ln -sf "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
 if [ -L "$HOME/.dotfiles" ]; then
   unlink "$HOME/.dotfiles"
@@ -142,19 +142,19 @@ ln -sf "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
 ln -sf "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
 ln -sf "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
 
-echo "\nInstall latest Ruby\n"
+echo "Install latest Ruby"
 latest_ruby_version=$(rbenv install -l | grep -E '^\s+(\d+\.\d+)\.\d+$' | tail -n 1)
 rbenv install --skip-existing $latest_ruby_version
 rbenv global $latest_ruby_version
 rbenv rehash
 
-echo "\nInstall latest Python\n"
+echo "Install latest Python"
 latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
 pyenv install --skip-existing $latest_python3_version
 pyenv global $latest_python3_version
 pyenv rehash
 
-echo "\nInstall latest perl\n"
+echo "Install latest perl"
 latest_perl5_version=$(plenv install -l | grep -E '^\s+5\.\d+\.\d+$' | awk -F'[.]' '{ if ($2 %2 == 0) print $0 }' | head -n 1 | sed -e 's/^[ ]*//g')
 if ! [[ $(plenv versions | grep $latest_perl5_version) ]]; then
   plenv install $latest_perl5_version
@@ -162,12 +162,12 @@ fi
 plenv global $latest_perl5_version
 plenv rehash
 
-echo "\nApply private settings\n"
+echo "Apply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
 
-echo "\nUse zsh installed via Homebrew as default shell\n"
+echo "Use zsh installed via Homebrew as default shell"
 echo "$(which zsh)" | sudo tee -a /etc/shells
 chsh -s $(which zsh)
 if which direnv > /dev/null; then direnv allow; fi
