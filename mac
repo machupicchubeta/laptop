@@ -26,7 +26,7 @@ if ! [[ $(xcode-select -v | grep -E '^xcode-select version \d+\.$') ]]; then
 fi
 
 echo "Install commands and Apps"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/brewfile.sh)
+curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/Brewfile > $HOME/Brewfile && brew bundle && rm $HOME/Brewfile
 
 echo "Install oh-my-zsh"
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
