@@ -166,6 +166,10 @@ fi
 plenv global $latest_perl5_version
 plenv rehash
 
+echo "Set Java PATH"
+jenv add $(/usr/libexec/java_home -v 1.8)
+jenv add $(/usr/libexec/java_home)
+
 echo "Apply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
