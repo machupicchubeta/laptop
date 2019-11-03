@@ -10,15 +10,19 @@ if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   ssh-add -K "$HOME/.ssh/id_rsa"
 fi
 
+echo "Install Homebrew"
+if [ ! -x "$(command -v brew)" ]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+echo "Install Xcode"
+brew install mas
+mas install 497799835
+
 echo "Install Xcode command line tools"
 sudo xcodebuild -license
 if ! [[ $(xcode-select -v | grep -E '^xcode-select version \d+\.$') ]]; then
   xcode-select --install
-fi
-
-echo "Install Homebrew"
-if [ ! -x "$(command -v brew)" ]; then
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 echo "Install commands and Apps"
