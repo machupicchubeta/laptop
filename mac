@@ -24,17 +24,8 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 fi
 
 echo "Create directories"
-if [ ! -d "$HOME/.bundle" ]; then
-  mkdir "$HOME/.bundle"
-fi
 if [ ! -d "$HOME/.config" ]; then
   mkdir "$HOME/.config"
-fi
-if [ ! -d "$HOME/.ctags.d" ]; then
-  mkdir "$HOME/.ctags.d"
-fi
-if [ ! -d "$HOME/.pip" ]; then
-  mkdir "$HOME/.pip"
 fi
 if [ ! -d "$HOME/.plenv" ]; then
   mkdir "$HOME/.plenv"
@@ -118,7 +109,7 @@ else
 fi
 
 echo "Apply settings"
-for dot_directory in $(find "$HOME"/Tools/dotfiles/.* -type d -d 0 ! -path "$HOME/Tools/dotfiles/." ! -path "$HOME/Tools/dotfiles/.." ! -path "$HOME/Tools/dotfiles/.git" ! -path "$HOME/Tools/dotfiles/.ctags.d"); do
+for dot_directory in $(find "$HOME"/Tools/dotfiles/.* -type d -d 0 ! -path "$HOME/Tools/dotfiles/." ! -path "$HOME/Tools/dotfiles/.." ! -path "$HOME/Tools/dotfiles/.git"); do
   dot_directory_name=$(basename "$dot_directory")
   if [ -L "$HOME/$dot_directory_name" ]; then
     unlink "$HOME/$dot_directory_name"
@@ -149,13 +140,6 @@ if [ -e /etc/my.cnf ]; then
   sudo mv /etc/my.cnf /etc/my.cnf_"$(date +%Y-%m-%dT%H:%M:%S%z)"
 fi
 sudo ln -s "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
-if [ -L "$HOME/.ctags.d" ]; then
-  unlink "$HOME/.ctags.d"
-fi
-if [ -L "$HOME/.ctags.d/default.ctags" ]; then
-  unlink "$HOME/.ctags.d/default.ctags"
-fi
-ln -s "$HOME/Tools/dotfiles/.ctags.d/default.ctags" "$HOME/.ctags.d/default.ctags"
 if [ -L "$HOME/.zshrc.pre-oh-my-zsh" ]; then
   unlink "$HOME/.zshrc.pre-oh-my-zsh"
 fi
@@ -177,18 +161,10 @@ if [ -L "$HOME/bin/diceware.wordlist.asc" ]; then
   unlink "$HOME/bin/diceware.wordlist.asc"
 fi
 ln -s "$HOME/Tools/diceware/diceware.wordlist.asc" "$HOME/bin/diceware.wordlist.asc"
-if [ -L "$HOME/.pip/pip.conf" ]; then
-  unlink "$HOME/.pip/pip.conf"
-fi
-ln -s "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
 if [ -L "$HOME/.rbenv/default-gems" ]; then
   unlink "$HOME/.rbenv/default-gems"
 fi
 ln -s "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
-if [ -L "$HOME/.bundle/config" ]; then
-  unlink "$HOME/.bundle/config"
-fi
-ln -s "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
 
 echo "Setup Ruby"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_ruby.sh)
