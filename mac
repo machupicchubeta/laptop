@@ -97,9 +97,6 @@ fi
 if [ ! -d "$HOME/Tools/tony/tmux-config" ]; then
   git clone git@github.com:tony/tmux-config.git "$HOME/Tools/tony/tmux-config"
 fi
-if [ ! -d "$(plenv root)/plugins/perl-build" ]; then
-  git clone git://github.com/tokuhirom/Perl-Build.git $(plenv root)/plugins/perl-build/
-fi
 
 echo "Apply settings"
 sudo ln -sf "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
@@ -136,29 +133,20 @@ ln -sf "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
 ln -sf "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
 ln -sf "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
 
-echo "Install latest Ruby"
-latest_ruby_version=$(rbenv install -l | grep -E '^\s+(\d+\.\d+)\.\d+$' | tail -n 1)
-rbenv install --skip-existing $latest_ruby_version
-rbenv global $latest_ruby_version
-rbenv rehash
+echo "Setup Ruby"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_ruby.sh)
 
-echo "Install latest Python"
-latest_python3_version=$(pyenv install -l | grep -E '^\s+3\.\d+\.\d+$' | tail -n 1)
-pyenv install --skip-existing $latest_python3_version
-pyenv global $latest_python3_version
-pyenv rehash
+echo "Setup Python"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_python.sh)
 
-echo "Install latest perl"
-latest_perl5_version=$(plenv install -l | grep -E '^\s+5\.\d+\.\d+$' | awk -F'[.]' '{ if ($2 %2 == 0) print $0 }' | head -n 1 | sed -e 's/^[ ]*//g')
-if ! [[ $(plenv versions | grep $latest_perl5_version) ]]; then
-  plenv install $latest_perl5_version
-fi
-plenv global $latest_perl5_version
-plenv rehash
+echo "Setup Perl"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_perl.sh)
 
-echo "Set Java PATH"
-jenv add $(/usr/libexec/java_home -v 1.8)
-jenv add $(/usr/libexec/java_home)
+echo "Setup Java"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_java.sh)
+
+echo "Setup Node.js"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_nodejs.sh)
 
 echo "Apply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
