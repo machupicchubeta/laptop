@@ -24,18 +24,6 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 fi
 
 echo "Create directories"
-if [ ! -d "$HOME/.config" ]; then
-  mkdir "$HOME/.config"
-fi
-if [ ! -d "$HOME/.plenv" ]; then
-  mkdir "$HOME/.plenv"
-fi
-if [ ! -d "$HOME/.rbenv" ]; then
-  mkdir "$HOME/.rbenv"
-fi
-if [ ! -d "$HOME/bin" ]; then
-  mkdir "$HOME/bin"
-fi
 if [ ! -d "$HOME/tmp" ]; then
   mkdir "$HOME/tmp"
 fi
@@ -45,21 +33,19 @@ fi
 if [ ! -d "$HOME/Develop" ]; then
   mkdir "$HOME/Develop"
 fi
-if [ ! -d "$HOME/Screenshots" ]; then
-  mkdir "$HOME/Screenshots"
-fi
-if [ ! -d "$HOME/Tools" ]; then
-  mkdir "$HOME/Tools"
-fi
 
 echo "Change screencapture store directory"
-defaults write com.apple.screencapture location "$HOME/Screenshots"
+SCREENSHOTS_PATH="$HOME/Screenshots"
+if [ ! -d "$SCREENSHOTS_PATH" ]; then
+  mkdir "$SCREENSHOTS_PATH"
+fi
+defaults write com.apple.screencapture location "$SCREENSHOTS_PATH"
 killall SystemUIServer
 
 echo "Copy SFMono fonts to User font directory"
 cp -f /System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
 
-echo "Download settings"
+echo "Download settings and themes"
 SETUP_PATH="$HOME/setup"
 if [ ! -e $SETUP_PATH/laptop/mac ]; then
   mkdir -p $SETUP_PATH && cd $SETUP_PATH && git clone git@github.com:machupicchubeta/laptop.git
@@ -67,10 +53,14 @@ else
   cd $SETUP_PATH/laptop && git checkout master && git pull --rebase --prune
 fi
 TOOLS_PATH="$HOME/Tools"
-if [ ! -d "$TOOLS_PATH/dotfiles" ]; then
-  git clone git@github.com:machupicchubeta/dotfiles.git "$TOOLS_PATH/dotfiles"
+if [ ! -d "$TOOLS_PATH" ]; then
+  mkdir "$TOOLS_PATH"
+fi
+SETTINGS_PATH="$TOOLS_PATH/dotfiles"
+if [ ! -d "$SETTINGS_PATH" ]; then
+  git clone git@github.com:machupicchubeta/dotfiles.git "$SETTINGS_PATH"
 else
-  cd "$TOOLS_PATH/dotfiles" && git checkout master && git pull --rebase --prune
+  cd "$SETTINGS_PATH" && git checkout master && git pull --rebase --prune
 fi
 if [ ! -d "$TOOLS_PATH/diceware" ]; then
   git clone git@github.com:machupicchubeta/diceware.git "$TOOLS_PATH/diceware"
@@ -108,8 +98,8 @@ else
   cd "$TOOLS_PATH/tony/tmux-config" && git checkout master && git pull --rebase --prune
 fi
 
-echo "Apply settings"
-for dot_directory in $(find "$HOME"/Tools/dotfiles/.* -type d -d 0 ! -path "$HOME/Tools/dotfiles/." ! -path "$HOME/Tools/dotfiles/.." ! -path "$HOME/Tools/dotfiles/.git"); do
+echo "Put settings"
+for dot_directory in $(find $SETTINGS_PATH/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git"); do
   dot_directory_name=$(basename "$dot_directory")
   if [ -L "$HOME/$dot_directory_name" ]; then
     unlink "$HOME/$dot_directory_name"
@@ -119,10 +109,13 @@ for dot_directory in $(find "$HOME"/Tools/dotfiles/.* -type d -d 0 ! -path "$HOM
   fi
   ln -s "$dot_directory" "$HOME/$dot_directory_name"
 done
-if [ -L "$HOME/.config/nvim" ]; then
-  unlink "$HOME/.config/nvim"
+if [ ! -d "$XDG_CONFIG_HOME" ]; then
+  mkdir "$XDG_CONFIG_HOME"
 fi
-ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.config/nvim"
+if [ -L "$XDG_CONFIG_HOME/nvim" ]; then
+  unlink "$XDG_CONFIG_HOME/nvim"
+fi
+ln -s "$SETTINGS_PATH/.vim" "$XDG_CONFIG_HOME/nvim"
 for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
   dot_filename=$(basename "$dot_file")
   if [ -L "$HOME/$dot_filename" ]; then
@@ -139,32 +132,42 @@ fi
 if [ -e /etc/my.cnf ]; then
   sudo mv /etc/my.cnf /etc/my.cnf_"$(date +%Y-%m-%dT%H:%M:%S%z)"
 fi
-sudo ln -s "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
+sudo ln -s "$SETTINGS_PATH/mysql/my-utf8mb4.cnf" /etc/my.cnf
 if [ -L "$HOME/.zshrc.pre-oh-my-zsh" ]; then
   unlink "$HOME/.zshrc.pre-oh-my-zsh"
 fi
+RBENV_PATH="$HOME/.rbenv"
+if [ ! -d "$RBENV_PATH" ]; then
+  mkdir "$RBENV_PATH"
+fi
+if [ -L "$RBENV_PATH/default-gems" ]; then
+  unlink "$RBENV_PATH/default-gems"
+fi
+ln -s "$SETTINGS_PATH/rbenv/default-gems" "$RBENV_PATH/default-gems"
+
+echo "Put script files"
+BIN_PATH="$HOME/bin"
+if [ ! -d "$BIN_PATH" ]; then
+  mkdir "$BIN_PATH"
+fi
 for bin_file in "$HOME"/Tools/dotfiles/bin/*; do
   bin_filename=$(basename "$bin_file")
-  if [ -L "$HOME/bin/$bin_filename" ]; then
-    unlink "$HOME/bin/$bin_filename"
+  if [ -L "$BIN_PATH/$bin_filename" ]; then
+    unlink "$BIN_PATH/$bin_filename"
   fi
-  if [ -e "$HOME/bin/$bin_filename" ]; then
-    mv "$HOME/bin/$bin_filename" "$HOME/bin/$bin_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+  if [ -e "$BIN_PATH/$bin_filename" ]; then
+    mv "$BIN_PATH/$bin_filename" "$BIN_PATH/$bin_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
   fi
-  ln -s "$bin_file" "$HOME/bin/$bin_filename"
+  ln -s "$bin_file" "$BIN_PATH/$bin_filename"
 done
-if [ -L "$HOME/bin/diceware.rb" ]; then
-  unlink "$HOME/bin/diceware.rb"
+if [ -L "$BIN_PATH/diceware.rb" ]; then
+  unlink "$BIN_PATH/diceware.rb"
 fi
-ln -s "$HOME/Tools/diceware/diceware.rb" "$HOME/bin/diceware.rb"
-if [ -L "$HOME/bin/diceware.wordlist.asc" ]; then
-  unlink "$HOME/bin/diceware.wordlist.asc"
+ln -s "$TOOLS_PATH/diceware/diceware.rb" "$BIN_PATH/diceware.rb"
+if [ -L "$BIN_PATH/diceware.wordlist.asc" ]; then
+  unlink "$BIN_PATH/diceware.wordlist.asc"
 fi
-ln -s "$HOME/Tools/diceware/diceware.wordlist.asc" "$HOME/bin/diceware.wordlist.asc"
-if [ -L "$HOME/.rbenv/default-gems" ]; then
-  unlink "$HOME/.rbenv/default-gems"
-fi
-ln -s "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
+ln -s "$TOOLS_PATH/diceware/diceware.wordlist.asc" "$BIN_PATH/diceware.wordlist.asc"
 
 echo "Setup Ruby"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_ruby.sh)
