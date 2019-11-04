@@ -72,66 +72,123 @@ echo "Download settings"
 SETUP_PATH="$HOME/setup"
 if [ ! -e $SETUP_PATH/laptop/mac ]; then
   mkdir -p $SETUP_PATH && cd $SETUP_PATH && git clone git@github.com:machupicchubeta/laptop.git
+else
+  cd $SETUP_PATH/laptop && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/dotfiles" ]; then
-  git clone git@github.com:machupicchubeta/dotfiles.git "$HOME/Tools/dotfiles"
+TOOLS_PATH="$HOME/Tools"
+if [ ! -d "$TOOLS_PATH/dotfiles" ]; then
+  git clone git@github.com:machupicchubeta/dotfiles.git "$TOOLS_PATH/dotfiles"
+else
+  cd "$TOOLS_PATH/dotfiles" && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/diceware" ]; then
-  git clone git@github.com:machupicchubeta/diceware.git "$HOME/Tools/diceware"
+if [ ! -d "$TOOLS_PATH/diceware" ]; then
+  git clone git@github.com:machupicchubeta/diceware.git "$TOOLS_PATH/diceware"
+else
+  cd "$TOOLS_PATH/diceware" && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/altercation/solarized" ]; then
-  git clone git@github.com:altercation/solarized.git "$HOME/Tools/altercation/solarized"
+if [ ! -d "$TOOLS_PATH/altercation/solarized" ]; then
+  git clone git@github.com:altercation/solarized.git "$TOOLS_PATH/altercation/solarized"
+else
+  cd "$TOOLS_PATH/altercation/solarized" && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/mbadolato/iTerm2-Color-Schemes" ]; then
-  git clone git@github.com:mbadolato/iTerm2-Color-Schemes.git "$HOME/Tools/mbadolato/iTerm2-Color-Schemes"
+if [ ! -d "$TOOLS_PATH/mbadolato/iTerm2-Color-Schemes" ]; then
+  git clone git@github.com:mbadolato/iTerm2-Color-Schemes.git "$TOOLS_PATH/mbadolato/iTerm2-Color-Schemes"
+else
+  cd "$TOOLS_PATH/mbadolato/iTerm2-Color-Schemes" && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/seebi/dircolors-solarized" ]; then
-  git clone git@github.com:seebi/dircolors-solarized.git "$HOME/Tools/seebi/dircolors-solarized"
+if [ ! -d "$TOOLS_PATH/seebi/dircolors-solarized" ]; then
+  git clone git@github.com:seebi/dircolors-solarized.git "$TOOLS_PATH/seebi/dircolors-solarized"
+else
+  cd "$TOOLS_PATH/seebi/dircolors-solarized" && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/erikw/tmux-powerline" ]; then
-  git clone git@github.com:erikw/tmux-powerline.git "$HOME/Tools/erikw/tmux-powerline"
+if [ ! -d "$TOOLS_PATH/erikw/tmux-powerline" ]; then
+  git clone git@github.com:erikw/tmux-powerline.git "$TOOLS_PATH/erikw/tmux-powerline"
+else
+  cd "$TOOLS_PATH/erikw/tmux-powerline" && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/mollifier/4979906" ]; then
-  git clone git@gist.github.com:4979906.git "$HOME/Tools/mollifier/4979906"
+if [ ! -d "$TOOLS_PATH/mollifier/4979906" ]; then
+  git clone git@gist.github.com:4979906.git "$TOOLS_PATH/mollifier/4979906"
+else
+  cd "$TOOLS_PATH/mollifier/4979906" && git checkout master && git pull --rebase --prune
 fi
-if [ ! -d "$HOME/Tools/tony/tmux-config" ]; then
-  git clone git@github.com:tony/tmux-config.git "$HOME/Tools/tony/tmux-config"
+if [ ! -d "$TOOLS_PATH/tony/tmux-config" ]; then
+  git clone git@github.com:tony/tmux-config.git "$TOOLS_PATH/tony/tmux-config"
+else
+  cd "$TOOLS_PATH/tony/tmux-config" && git checkout master && git pull --rebase --prune
 fi
 
 echo "Apply settings"
-sudo ln -sf "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
-if [ -L "$HOME/.dotfiles" ]; then
-  unlink "$HOME/.dotfiles"
-fi
-ln -s "$HOME/Tools/dotfiles/.dotfiles" "$HOME/.dotfiles"
-if [ -L "$HOME/.vim" ]; then
-  unlink "$HOME/.vim"
-fi
-ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.vim"
+for dot_directory in $(find "$HOME"/Tools/dotfiles/.* -type d -d 0 ! -path "$HOME/Tools/dotfiles/." ! -path "$HOME/Tools/dotfiles/.." ! -path "$HOME/Tools/dotfiles/.git" ! -path "$HOME/Tools/dotfiles/.ctags.d"); do
+  dot_directory_name=$(basename "$dot_directory")
+  if [ -L "$HOME/$dot_directory_name" ]; then
+    unlink "$HOME/$dot_directory_name"
+  fi
+  if [ -e "$HOME/$dot_directory_name" ]; then
+    mv "$HOME/$dot_directory_name" "$HOME/$dot_directory_name"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+  fi
+  ln -s "$dot_directory" "$HOME/$dot_directory_name"
+done
 if [ -L "$HOME/.config/nvim" ]; then
   unlink "$HOME/.config/nvim"
 fi
 ln -s "$HOME/Tools/dotfiles/.vim" "$HOME/.config/nvim"
-ln -sf "$HOME/Tools/dotfiles/.ctags.d/default.ctags" "$HOME/.ctags.d/default.ctags"
+for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
+  dot_filename=$(basename "$dot_file")
+  if [ -L "$HOME/$dot_filename" ]; then
+    unlink "$HOME/$dot_filename"
+  fi
+  if [ -e "$HOME/$dot_filename" ]; then
+    mv "$HOME/$dot_filename" "$HOME/$dot_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+  fi
+  ln -s "$dot_file" "$HOME/$dot_filename"
+done
+if [ -L /etc/my.cnf ]; then
+  sudo unlink /etc/my.cnf
+fi
+if [ -e /etc/my.cnf ]; then
+  sudo mv /etc/my.cnf /etc/my.cnf_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+fi
+sudo ln -s "$HOME/Tools/dotfiles/mysql/my-utf8mb4.cnf" /etc/my.cnf
+if [ -L "$HOME/.ctags.d" ]; then
+  unlink "$HOME/.ctags.d"
+fi
+if [ -L "$HOME/.ctags.d/default.ctags" ]; then
+  unlink "$HOME/.ctags.d/default.ctags"
+fi
+ln -s "$HOME/Tools/dotfiles/.ctags.d/default.ctags" "$HOME/.ctags.d/default.ctags"
 if [ -L "$HOME/.zshrc.pre-oh-my-zsh" ]; then
   unlink "$HOME/.zshrc.pre-oh-my-zsh"
 fi
-if [ -e "$HOME/.zshrc" ]; then
-  mv "$HOME/.zshrc" "$HOME/.zshrc_$(date +%Y-%m-%dT%H:%M:%S%z)"
-fi
-for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
-  dot_filename=$(basename "$dot_file")
-  ln -sf "$dot_file" "$HOME/$dot_filename"
-done
-ln -sf "$HOME/Tools/diceware/diceware.rb" "$HOME/bin/diceware.rb"
-ln -sf "$HOME/Tools/diceware/diceware.wordlist.asc" "$HOME/bin/diceware.wordlist.asc"
 for bin_file in "$HOME"/Tools/dotfiles/bin/*; do
   bin_filename=$(basename "$bin_file")
-  ln -sf "$bin_file" "$HOME/bin/$bin_filename"
+  if [ -L "$HOME/bin/$bin_filename" ]; then
+    unlink "$HOME/bin/$bin_filename"
+  fi
+  if [ -e "$HOME/bin/$bin_filename" ]; then
+    mv "$HOME/bin/$bin_filename" "$HOME/bin/$bin_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+  fi
+  ln -s "$bin_file" "$HOME/bin/$bin_filename"
 done
-ln -sf "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
-ln -sf "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
-ln -sf "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
+if [ -L "$HOME/bin/diceware.rb" ]; then
+  unlink "$HOME/bin/diceware.rb"
+fi
+ln -s "$HOME/Tools/diceware/diceware.rb" "$HOME/bin/diceware.rb"
+if [ -L "$HOME/bin/diceware.wordlist.asc" ]; then
+  unlink "$HOME/bin/diceware.wordlist.asc"
+fi
+ln -s "$HOME/Tools/diceware/diceware.wordlist.asc" "$HOME/bin/diceware.wordlist.asc"
+if [ -L "$HOME/.pip/pip.conf" ]; then
+  unlink "$HOME/.pip/pip.conf"
+fi
+ln -s "$HOME/Tools/dotfiles/pip/pip.conf" "$HOME/.pip/pip.conf"
+if [ -L "$HOME/.rbenv/default-gems" ]; then
+  unlink "$HOME/.rbenv/default-gems"
+fi
+ln -s "$HOME/Tools/dotfiles/rbenv/default-gems" "$HOME/.rbenv/default-gems"
+if [ -L "$HOME/.bundle/config" ]; then
+  unlink "$HOME/.bundle/config"
+fi
+ln -s "$HOME/Tools/dotfiles/bundle/config" "$HOME/.bundle/config"
 
 echo "Setup Ruby"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_ruby.sh)
