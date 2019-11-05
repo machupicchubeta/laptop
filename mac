@@ -109,6 +109,7 @@ for dot_directory in $(find $SETTINGS_PATH/.* -type d -d 0 ! -path "$SETTINGS_PA
   fi
   ln -s "$dot_directory" "$HOME/$dot_directory_name"
 done
+: ${XDG_CONFIG_HOME:=$HOME/.config}
 if [ ! -d "$XDG_CONFIG_HOME" ]; then
   mkdir "$XDG_CONFIG_HOME"
 fi
