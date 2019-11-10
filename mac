@@ -191,6 +191,8 @@ if [ -f "$HOME/.laptop.local" ]; then
 fi
 
 echo "Use zsh installed via Homebrew as default shell"
-echo "$(which zsh)" | sudo tee -a /etc/shells
-chsh -s $(which zsh)
+if [ $SHELL != $(which zsh) ]; then
+  echo "$(which zsh)" | sudo tee -a /etc/shells
+  chsh -s $(which zsh)
+fi
 if which direnv > /dev/null; then direnv allow; fi
