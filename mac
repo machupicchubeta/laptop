@@ -43,7 +43,15 @@ defaults write com.apple.screencapture location "$SCREENSHOTS_PATH"
 killall SystemUIServer
 
 echo "Copy SFMono fonts to User font directory"
-cp -f /System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
+TERMINAL_APP_PATH=""
+if [ -d "/System/Applications/Utilities/Terminal.app" ]; then
+  TERMINAL_APP_PATH="/System/Applications/Utilities/Terminal.app"
+elif [ -d "/Applications/Utilities/Terminal.app" ]; then
+  TERMINAL_APP_PATH="/Applications/Utilities/Terminal.app"
+fi
+if [ -n "$TERMINAL_APP_PATH" ]; then
+  cp -f $TERMINAL_APP_PATH/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
+fi
 
 echo "Download settings and themes"
 SETUP_PATH="$HOME/setup"
