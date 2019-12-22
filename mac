@@ -23,15 +23,14 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 fi
 
-echo "Create directories"
+echo "Create tmp directory"
 if [ ! -d "$HOME/tmp" ]; then
   mkdir "$HOME/tmp"
 fi
+
+echo "Create own Applications directory"
 if [ ! -d "$HOME/Applications" ]; then
   mkdir "$HOME/Applications"
-fi
-if [ ! -d "$HOME/Develop" ]; then
-  mkdir "$HOME/Develop"
 fi
 
 echo "Change screencapture store directory"
@@ -54,59 +53,24 @@ if [ -n "$TERMINAL_APP_PATH" ]; then
 fi
 
 echo "Download settings and themes"
-SETUP_PATH="$HOME/setup"
-if [ ! -e $SETUP_PATH/laptop/mac ]; then
-  mkdir -p $SETUP_PATH && cd $SETUP_PATH && git clone git@github.com:machupicchubeta/laptop.git
-else
-  cd $SETUP_PATH/laptop && git checkout master && git pull --rebase --prune
+REPOSITORIES_PATH="$HOME/Repositories"
+if [ ! -d "$REPOSITORIES_PATH" ]; then
+  mkdir "$REPOSITORIES_PATH"
 fi
-TOOLS_PATH="$HOME/Tools"
-if [ ! -d "$TOOLS_PATH" ]; then
-  mkdir "$TOOLS_PATH"
-fi
-SETTINGS_PATH="$TOOLS_PATH/dotfiles"
-if [ ! -d "$SETTINGS_PATH" ]; then
-  git clone git@github.com:machupicchubeta/dotfiles.git "$SETTINGS_PATH"
-else
-  cd "$SETTINGS_PATH" && git checkout master && git pull --rebase --prune
-fi
-if [ ! -d "$TOOLS_PATH/diceware" ]; then
-  git clone git@github.com:machupicchubeta/diceware.git "$TOOLS_PATH/diceware"
-else
-  cd "$TOOLS_PATH/diceware" && git checkout master && git pull --rebase --prune
-fi
-if [ ! -d "$TOOLS_PATH/altercation/solarized" ]; then
-  git clone git@github.com:altercation/solarized.git "$TOOLS_PATH/altercation/solarized"
-else
-  cd "$TOOLS_PATH/altercation/solarized" && git checkout master && git pull --rebase --prune
-fi
-if [ ! -d "$TOOLS_PATH/mbadolato/iTerm2-Color-Schemes" ]; then
-  git clone git@github.com:mbadolato/iTerm2-Color-Schemes.git "$TOOLS_PATH/mbadolato/iTerm2-Color-Schemes"
-else
-  cd "$TOOLS_PATH/mbadolato/iTerm2-Color-Schemes" && git checkout master && git pull --rebase --prune
-fi
-if [ ! -d "$TOOLS_PATH/seebi/dircolors-solarized" ]; then
-  git clone git@github.com:seebi/dircolors-solarized.git "$TOOLS_PATH/seebi/dircolors-solarized"
-else
-  cd "$TOOLS_PATH/seebi/dircolors-solarized" && git checkout master && git pull --rebase --prune
-fi
-if [ ! -d "$TOOLS_PATH/erikw/tmux-powerline" ]; then
-  git clone git@github.com:erikw/tmux-powerline.git "$TOOLS_PATH/erikw/tmux-powerline"
-else
-  cd "$TOOLS_PATH/erikw/tmux-powerline" && git checkout master && git pull --rebase --prune
-fi
-if [ ! -d "$TOOLS_PATH/mollifier/4979906" ]; then
-  git clone git@gist.github.com:4979906.git "$TOOLS_PATH/mollifier/4979906"
-else
-  cd "$TOOLS_PATH/mollifier/4979906" && git checkout master && git pull --rebase --prune
-fi
-if [ ! -d "$TOOLS_PATH/tony/tmux-config" ]; then
-  git clone git@github.com:tony/tmux-config.git "$TOOLS_PATH/tony/tmux-config"
-else
-  cd "$TOOLS_PATH/tony/tmux-config" && git checkout master && git pull --rebase --prune
-fi
+export GHQ_ROOT=$REPOSITORIES_PATH
+ghq get -u github.com/machupicchubeta/laptop
+ghq get -u github.com/machupicchubeta/dotfiles
+ghq get -u github.com/machupicchubeta/diceware
+ghq get -u github.com/altercation/solarized
+ghq get -u github.com/mbadolato/iTerm2-Color-Schemes
+ghq get -u github.com/seebi/dircolors-solarized
+ghq get -u github.com/erikw/tmux-powerline
+ghq get -u gist.github.com/4979906
+ghq get -u github.com/tony/tmux-config
 
 echo "Put settings"
+GITHUB_REPOSITORIES_PATH="$REPOSITORIES_PATH/github.com"
+SETTINGS_PATH="$GITHUB_REPOSITORIES_PATH/machupicchubeta/dotfiles"
 for dot_directory in $(find $SETTINGS_PATH/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git"); do
   dot_directory_name=$(basename "$dot_directory")
   if [ -L "$HOME/$dot_directory_name" ]; then
@@ -125,7 +89,7 @@ if [ -L "$XDG_CONFIG_HOME/nvim" ]; then
   unlink "$XDG_CONFIG_HOME/nvim"
 fi
 ln -s "$SETTINGS_PATH/.vim" "$XDG_CONFIG_HOME/nvim"
-for dot_file in $(find "$HOME"/Tools/dotfiles/.* -type f -d 0); do
+for dot_file in $(find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -type f -d 0); do
   dot_filename=$(basename "$dot_file")
   if [ -L "$HOME/$dot_filename" ]; then
     unlink "$HOME/$dot_filename"
@@ -159,7 +123,7 @@ BIN_PATH="$HOME/bin"
 if [ ! -d "$BIN_PATH" ]; then
   mkdir "$BIN_PATH"
 fi
-for bin_file in "$HOME"/Tools/dotfiles/bin/*; do
+for bin_file in "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/bin/*; do
   bin_filename=$(basename "$bin_file")
   if [ -L "$BIN_PATH/$bin_filename" ]; then
     unlink "$BIN_PATH/$bin_filename"
@@ -172,11 +136,11 @@ done
 if [ -L "$BIN_PATH/diceware.rb" ]; then
   unlink "$BIN_PATH/diceware.rb"
 fi
-ln -s "$TOOLS_PATH/diceware/diceware.rb" "$BIN_PATH/diceware.rb"
+ln -s "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware/diceware.rb" "$BIN_PATH/diceware.rb"
 if [ -L "$BIN_PATH/diceware.wordlist.asc" ]; then
   unlink "$BIN_PATH/diceware.wordlist.asc"
 fi
-ln -s "$TOOLS_PATH/diceware/diceware.wordlist.asc" "$BIN_PATH/diceware.wordlist.asc"
+ln -s "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware/diceware.wordlist.asc" "$BIN_PATH/diceware.wordlist.asc"
 
 echo "Load compiler options"
 COMPILER_OPTIONS_PATH="$HOME/.dotfiles/.exports_compiler_options"
