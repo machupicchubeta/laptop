@@ -62,47 +62,47 @@ GITHUB_REPOSITORIES_PATH="$REPOSITORIES_PATH/github.com"
 GIST_REPOSITORIES_PATH="$REPOSITORIES_PATH/gist.github.com"
 
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/machupicchubeta/laptop" ]; then
-  ghq get git@github.com:machupicchubeta/laptop.git
+  ghq get github.com/machupicchubeta/laptop
 else
   cd "$GITHUB_REPOSITORIES_PATH/machupicchubeta/laptop" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/machupicchubeta/dotfiles" ]; then
-  ghq get git@github.com:machupicchubeta/dotfiles.git
+  ghq get github.com/machupicchubeta/dotfiles
 else
   cd "$GITHUB_REPOSITORIES_PATH/machupicchubeta/dotfiles" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware" ]; then
-  ghq get git@github.com:machupicchubeta/diceware.git
+  ghq get github.com/machupicchubeta/diceware
 else
   cd "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/altercation/solarized" ]; then
-  ghq get git@github.com:altercation/solarized.git
+  ghq get github.com/altercation/solarized
 else
   cd "$GITHUB_REPOSITORIES_PATH/altercation/solarized" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/mbadolato/iTerm2-Color-Schemes" ]; then
-  ghq get git@github.com:mbadolato/iTerm2-Color-Schemes.git
+  ghq get github.com/mbadolato/iTerm2-Color-Schemes
 else
   cd "$GITHUB_REPOSITORIES_PATH/mbadolato/iTerm2-Color-Schemes" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/seebi/dircolors-solarized" ]; then
-  ghq get git@github.com:seebi/dircolors-solarized.git
+  ghq get github.com/seebi/dircolors-solarized
 else
   cd "$GITHUB_REPOSITORIES_PATH/seebi/dircolors-solarized" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/erikw/tmux-powerline" ]; then
-  ghq get git@github.com:erikw/tmux-powerline.git
+  ghq get github.com/erikw/tmux-powerline
 else
   cd "$GITHUB_REPOSITORIES_PATH/erikw/tmux-powerline" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GIST_REPOSITORIES_PATH/mollifier/4979906" ]; then
-  ghq get git@gist.github.com:4979906.git
+  ghq get gist.github.com/4979906
 else
   cd "$GIST_REPOSITORIES_PATH/mollifier/4979906" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
 if [ ! -d "$GITHUB_REPOSITORIES_PATH/tony/tmux-config" ]; then
-  ghq get git@github.com:tony/tmux-config.git
+  ghq get github.com/tony/tmux-config
 else
   cd "$GITHUB_REPOSITORIES_PATH/tony/tmux-config" && git checkout master && git pull --rebase --prune && cd "$HOME"
 fi
