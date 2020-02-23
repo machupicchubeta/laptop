@@ -2,6 +2,9 @@
 set -eu
 cd "$HOME"
 
+echo "Enable to sudo authenticate with touch id"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/enable_to_sudo_authenticate_with_touch_id.sh)
+
 echo "Generate key pair"
 if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   read -p "email: " email
