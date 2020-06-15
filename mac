@@ -166,6 +166,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mas
 echo "Setup Node.js"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_nodejs.sh)
 
+echo "Setup Go"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_go.sh)
+
 echo "Apply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
