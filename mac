@@ -3,7 +3,7 @@ set -eu
 cd "$HOME"
 
 echo "Enable to sudo authenticate with touch id"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/enable_to_sudo_authenticate_with_touch_id.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_sudo_authenticate_with_touch_id.sh)
 
 echo "Generate key pair"
 if [ ! -e "$HOME/.ssh/id_rsa" ]; then
@@ -19,7 +19,7 @@ if [ ! -x "$(command -v brew)" ]; then
 fi
 
 echo "Install commands and Apps"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/brewfile.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/brewfile.sh)
 
 echo "Install oh-my-zsh"
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -152,22 +152,22 @@ if [ -r "$COMPILER_OPTIONS_PATH" ]; then
 fi
 
 echo "Setup Ruby"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_ruby.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_ruby.sh)
 
 echo "Setup Python"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_python.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_python.sh)
 
 echo "Setup Perl"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_perl.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_perl.sh)
 
 echo "Setup Java"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_java.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_java.sh)
 
 echo "Setup Node.js"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_nodejs.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_nodejs.sh)
 
 echo "Setup Go"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/master/bin/setup_go.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_go.sh)
 
 echo "Apply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
