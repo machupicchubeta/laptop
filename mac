@@ -169,6 +169,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo "Setup Go"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_go.sh)
 
+echo "Setup Rust"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
+
 echo "Apply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
