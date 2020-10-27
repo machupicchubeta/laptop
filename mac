@@ -21,11 +21,6 @@ fi
 echo "Install commands and Apps"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/brewfile.sh)
 
-echo "Install oh-my-zsh"
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-fi
-
 echo "Create tmp directory"
 if [ ! -d "$HOME/tmp" ]; then
   mkdir "$HOME/tmp"
@@ -109,9 +104,6 @@ if [ -e /etc/my.cnf ]; then
   sudo mv /etc/my.cnf /etc/my.cnf_"$(date +%Y-%m-%dT%H:%M:%S%z)"
 fi
 sudo ln -s "$SETTINGS_PATH/mysql/my-utf8mb4.cnf" /etc/my.cnf
-if [ -L "$HOME/.zshrc.pre-oh-my-zsh" ]; then
-  unlink "$HOME/.zshrc.pre-oh-my-zsh"
-fi
 RBENV_PATH="$HOME/.rbenv"
 if [ ! -d "$RBENV_PATH" ]; then
   mkdir "$RBENV_PATH"
