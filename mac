@@ -138,7 +138,7 @@ fi
 ln -s "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware/diceware.wordlist.asc" "$BIN_PATH/diceware.wordlist.asc"
 
 echo "Load compiler options"
-COMPILER_OPTIONS_PATH="$HOME/.dotfiles/.exports_compiler_options"
+COMPILER_OPTIONS_PATH="$HOME/.zsh/compiler_options.zsh"
 if [ -r "$COMPILER_OPTIONS_PATH" ]; then
   source "$COMPILER_OPTIONS_PATH"
 fi
