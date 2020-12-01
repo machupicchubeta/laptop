@@ -5,7 +5,7 @@ cd "$HOME"
 echo "Enable to sudo authenticate with touch id"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_sudo_authenticate_with_touch_id.sh)
 
-echo "Generate key pair"
+echo -e "\nGenerate key pair"
 if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   read -p "email: " email
   ssh-keygen -t rsa -b 4096 -C $email
@@ -13,25 +13,25 @@ if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   ssh-add -K "$HOME/.ssh/id_rsa"
 fi
 
-echo "Install Homebrew"
+echo -e "\nInstall Homebrew"
 if [ ! -x "$(command -v brew)" ]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-echo "Install commands and Apps"
+echo -e "\nInstall commands and Apps"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/brewfile.sh)
 
-echo "Create tmp directory"
+echo -e "\nCreate tmp directory"
 if [ ! -d "$HOME/tmp" ]; then
   mkdir "$HOME/tmp"
 fi
 
-echo "Create own Applications directory"
+echo -e "\nCreate own Applications directory"
 if [ ! -d "$HOME/Applications" ]; then
   mkdir "$HOME/Applications"
 fi
 
-echo "Change screencapture store directory"
+echo -e "\nChange screencapture store directory"
 SCREENSHOTS_PATH="$HOME/Screenshots"
 if [ ! -d "$SCREENSHOTS_PATH" ]; then
   mkdir "$SCREENSHOTS_PATH"
@@ -39,7 +39,7 @@ fi
 defaults write com.apple.screencapture location "$SCREENSHOTS_PATH"
 killall SystemUIServer
 
-echo "Copy SFMono fonts to User font directory"
+echo -e "\nCopy SFMono fonts to User font directory"
 TERMINAL_APP_PATH=""
 if [ -d "/System/Applications/Utilities/Terminal.app" ]; then
   TERMINAL_APP_PATH="/System/Applications/Utilities/Terminal.app"
@@ -50,7 +50,7 @@ if [ -n "$TERMINAL_APP_PATH" ]; then
   cp -f $TERMINAL_APP_PATH/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
 fi
 
-echo "Download settings and themes"
+echo -e "\nDownload settings and themes"
 REPOSITORIES_PATH="$HOME/Repositories"
 if [ ! -d "$REPOSITORIES_PATH" ]; then
   mkdir "$REPOSITORIES_PATH"
@@ -66,7 +66,7 @@ ghq get -u github.com/erikw/tmux-powerline
 ghq get -u gist.github.com/4979906
 ghq get -u github.com/tony/tmux-config
 
-echo "Put settings"
+echo -e "\nPut settings"
 GITHUB_REPOSITORIES_PATH="$REPOSITORIES_PATH/github.com"
 SETTINGS_PATH="$GITHUB_REPOSITORIES_PATH/machupicchubeta/dotfiles"
 for dot_directory in $(find $SETTINGS_PATH/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git"); do
@@ -113,7 +113,7 @@ if [ -L "$RBENV_PATH/default-gems" ]; then
 fi
 ln -s "$SETTINGS_PATH/rbenv/default-gems" "$RBENV_PATH/default-gems"
 
-echo "Put script files"
+echo -e "\nPut script files"
 BIN_PATH="$HOME/bin"
 if [ ! -d "$BIN_PATH" ]; then
   mkdir "$BIN_PATH"
@@ -137,39 +137,39 @@ if [ -L "$BIN_PATH/diceware.wordlist.asc" ]; then
 fi
 ln -s "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware/diceware.wordlist.asc" "$BIN_PATH/diceware.wordlist.asc"
 
-echo "Load compiler options"
+echo -e "\nLoad compiler options"
 COMPILER_OPTIONS_PATH="$HOME/.zsh/compiler_options.zsh"
 if [ -r "$COMPILER_OPTIONS_PATH" ]; then
   source "$COMPILER_OPTIONS_PATH"
 fi
 
-echo "Setup Ruby"
+echo -e "\nSetup Ruby"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_ruby.sh)
 
-echo "Setup Python"
+echo -e "\nSetup Python"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_python.sh)
 
-echo "Setup Perl"
+echo -e "\nSetup Perl"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_perl.sh)
 
-echo "Setup Java"
+echo -e "\nSetup Java"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_java.sh)
 
-echo "Setup Node.js"
+echo -e "\nSetup Node.js"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_nodejs.sh)
 
-echo "Setup Go"
+echo -e "\nSetup Go"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_go.sh)
 
-echo "Setup Rust"
+echo -e "\nSetup Rust"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
 
-echo "Apply private settings"
+echo -e "\nApply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
 
-echo "Use zsh installed via Homebrew as default shell"
+echo -e "\nUse zsh installed via Homebrew as default shell"
 if [ $SHELL != $(which zsh) ]; then
   echo "$(which zsh)" | sudo tee -a /etc/shells
   chsh -s $(which zsh)
