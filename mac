@@ -62,7 +62,6 @@ ghq get -u github.com/machupicchubeta/diceware
 ghq get -u github.com/altercation/solarized
 ghq get -u github.com/mbadolato/iTerm2-Color-Schemes
 ghq get -u github.com/seebi/dircolors-solarized
-ghq get -u github.com/erikw/tmux-powerline
 ghq get -u gist.github.com/4979906
 ghq get -u github.com/tony/tmux-config
 
