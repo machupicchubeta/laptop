@@ -7,7 +7,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 
 echo -e "\nGenerate key pair"
 if [ ! -e "$HOME/.ssh/id_rsa" ]; then
-  read -p "email: " email
+  echo 'Enter email:'
+  read -r email
   ssh-keygen -t rsa -b 4096 -C "$email"
   eval "$(ssh-agent -s)"
   ssh-add -K "$HOME/.ssh/id_rsa"
