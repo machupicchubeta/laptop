@@ -74,7 +74,7 @@ for dot_directory in $(find "$SETTINGS_PATH"/.* -type d -d 0 ! -path "$SETTINGS_
     unlink "$HOME/$dot_directory_name"
   fi
   if [ -e "$HOME/$dot_directory_name" ]; then
-    mv "$HOME/$dot_directory_name" "$HOME/$dot_directory_name"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+    mv "$HOME/$dot_directory_name" "$HOME"/"$dot_directory_name"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
   fi
   ln -s "$dot_directory" "$HOME/$dot_directory_name"
 done
@@ -92,7 +92,7 @@ for dot_file in $(find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -
     unlink "$HOME/$dot_filename"
   fi
   if [ -e "$HOME/$dot_filename" ]; then
-    mv "$HOME/$dot_filename" "$HOME/$dot_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+    mv "$HOME/$dot_filename" "$HOME"/"$dot_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
   fi
   ln -s "$dot_file" "$HOME/$dot_filename"
 done
@@ -123,7 +123,7 @@ for bin_file in "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/bin/*; do
     unlink "$BIN_PATH/$bin_filename"
   fi
   if [ -e "$BIN_PATH/$bin_filename" ]; then
-    mv "$BIN_PATH/$bin_filename" "$BIN_PATH/$bin_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+    mv "$BIN_PATH/$bin_filename" "$BIN_PATH"/"$bin_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
   fi
   ln -s "$bin_file" "$BIN_PATH/$bin_filename"
 done
