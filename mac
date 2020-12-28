@@ -142,6 +142,7 @@ ln -s "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware/diceware.wordlist.asc"
 echo -e "\nLoad compiler options"
 COMPILER_OPTIONS_PATH="$HOME/.zsh/compiler_options.zsh"
 if [ -r "$COMPILER_OPTIONS_PATH" ]; then
+  # shellcheck source=/dev/null
   source "$COMPILER_OPTIONS_PATH"
 fi
 
@@ -168,6 +169,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 
 echo -e "\nApply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
+  # shellcheck source=/dev/null
   . "$HOME/.laptop.local"
 fi
 
