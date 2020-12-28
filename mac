@@ -8,7 +8,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nGenerate key pair"
 if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   read -p "email: " email
-  ssh-keygen -t rsa -b 4096 -C $email
+  ssh-keygen -t rsa -b 4096 -C "$email"
   eval "$(ssh-agent -s)"
   ssh-add -K "$HOME/.ssh/id_rsa"
 fi
@@ -47,7 +47,7 @@ elif [ -d "/Applications/Utilities/Terminal.app" ]; then
   TERMINAL_APP_PATH="/Applications/Utilities/Terminal.app"
 fi
 if [ -n "$TERMINAL_APP_PATH" ]; then
-  cp -f $TERMINAL_APP_PATH/Contents/Resources/Fonts/*.otf $HOME/Library/Fonts/
+  cp -f $TERMINAL_APP_PATH/Contents/Resources/Fonts/*.otf "$HOME"/Library/Fonts/
 fi
 
 echo -e "\nDownload settings and themes"
@@ -68,7 +68,7 @@ ghq get -u github.com/tony/tmux-config
 echo -e "\nPut settings"
 GITHUB_REPOSITORIES_PATH="$REPOSITORIES_PATH/github.com"
 SETTINGS_PATH="$GITHUB_REPOSITORIES_PATH/machupicchubeta/dotfiles"
-for dot_directory in $(find $SETTINGS_PATH/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git"); do
+for dot_directory in $(find "$SETTINGS_PATH"/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git"); do
   dot_directory_name=$(basename "$dot_directory")
   if [ -L "$HOME/$dot_directory_name" ]; then
     unlink "$HOME/$dot_directory_name"
@@ -169,8 +169,8 @@ if [ -f "$HOME/.laptop.local" ]; then
 fi
 
 echo -e "\nUse zsh installed via Homebrew as default shell"
-if [ $SHELL != $(which zsh) ]; then
+if [ "$SHELL" != "$(which zsh)" ]; then
   echo "$(which zsh)" | sudo tee -a /etc/shells
-  chsh -s $(which zsh)
+  chsh -s "$(which zsh)"
 fi
 if which direnv > /dev/null; then direnv allow; fi
