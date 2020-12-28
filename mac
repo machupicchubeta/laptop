@@ -69,16 +69,17 @@ ghq get -u github.com/tony/tmux-config
 echo -e "\nPut settings"
 GITHUB_REPOSITORIES_PATH="$REPOSITORIES_PATH/github.com"
 SETTINGS_PATH="$GITHUB_REPOSITORIES_PATH/machupicchubeta/dotfiles"
-for dot_directory in $(find "$SETTINGS_PATH"/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git"); do
-  dot_directory_name=$(basename "$dot_directory")
-  if [ -L "$HOME/$dot_directory_name" ]; then
-    unlink "$HOME/$dot_directory_name"
-  fi
-  if [ -e "$HOME/$dot_directory_name" ]; then
-    mv "$HOME/$dot_directory_name" "$HOME"/"$dot_directory_name"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
-  fi
-  ln -s "$dot_directory" "$HOME/$dot_directory_name"
-done
+find "$SETTINGS_PATH"/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git" -exec sh -c '
+    dot_directory=$1
+    dot_directory_name=$(basename "$dot_directory")
+    if [ -L "$HOME/$dot_directory_name" ]; then
+      unlink "$HOME/$dot_directory_name"
+    fi
+    if [ -e "$HOME/$dot_directory_name" ]; then
+      mv "$HOME/$dot_directory_name" "$HOME"/"$dot_directory_name"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+    fi
+    ln -s "$dot_directory" "$HOME/$dot_directory_name"
+  ' sh {} \;
 : ${XDG_CONFIG_HOME:=$HOME/.config}
 if [ ! -d "$XDG_CONFIG_HOME" ]; then
   mkdir "$XDG_CONFIG_HOME"
@@ -87,16 +88,17 @@ if [ -L "$XDG_CONFIG_HOME/nvim" ]; then
   unlink "$XDG_CONFIG_HOME/nvim"
 fi
 ln -s "$SETTINGS_PATH/.vim" "$XDG_CONFIG_HOME/nvim"
-for dot_file in $(find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -type f -d 0); do
-  dot_filename=$(basename "$dot_file")
-  if [ -L "$HOME/$dot_filename" ]; then
-    unlink "$HOME/$dot_filename"
-  fi
-  if [ -e "$HOME/$dot_filename" ]; then
-    mv "$HOME/$dot_filename" "$HOME"/"$dot_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
-  fi
-  ln -s "$dot_file" "$HOME/$dot_filename"
-done
+find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -type f -d 0 -exec sh -c '
+    dot_file=$1
+    dot_filename=$(basename "$dot_file")
+    if [ -L "$HOME/$dot_filename" ]; then
+      unlink "$HOME/$dot_filename"
+    fi
+    if [ -e "$HOME/$dot_filename" ]; then
+      mv "$HOME/$dot_filename" "$HOME"/"$dot_filename"_"$(date +%Y-%m-%dT%H:%M:%S%z)"
+    fi
+    ln -s "$dot_file" "$HOME/$dot_filename"
+  ' sh {} \;
 if [ -L /etc/my.cnf ]; then
   sudo unlink /etc/my.cnf
 fi
