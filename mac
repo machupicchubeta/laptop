@@ -57,14 +57,14 @@ if [ ! -d "$REPOSITORIES_PATH" ]; then
   mkdir "$REPOSITORIES_PATH"
 fi
 export GHQ_ROOT=$REPOSITORIES_PATH
-ghq get -u github.com/machupicchubeta/laptop
-ghq get -u github.com/machupicchubeta/dotfiles
-ghq get -u github.com/machupicchubeta/diceware
-ghq get -u github.com/altercation/solarized
-ghq get -u github.com/mbadolato/iTerm2-Color-Schemes
-ghq get -u github.com/seebi/dircolors-solarized
-ghq get -u gist.github.com/4979906
-ghq get -u github.com/tony/tmux-config
+ghq get --update --parallel github.com/machupicchubeta/laptop
+ghq get --update --parallel github.com/machupicchubeta/dotfiles
+ghq get --update --parallel github.com/machupicchubeta/diceware
+ghq get --update --parallel github.com/altercation/solarized
+ghq get --update --parallel github.com/mbadolato/iTerm2-Color-Schemes
+ghq get --update --parallel github.com/seebi/dircolors-solarized
+ghq get --update --parallel gist.github.com/4979906
+ghq get --update --parallel github.com/tony/tmux-config
 
 echo -e "\nPut settings"
 GITHUB_REPOSITORIES_PATH="$REPOSITORIES_PATH/github.com"
