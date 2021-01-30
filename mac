@@ -14,6 +14,9 @@ if [ ! -e "$HOME/.ssh/id_rsa" ]; then
   ssh-add -K "$HOME/.ssh/id_rsa"
 fi
 
+echo -e "\nSetup Command Line Tools"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_command_line_tools.sh)
+
 echo -e "\nInstall Homebrew"
 if [ ! -x "$(command -v brew)" ]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
