@@ -69,7 +69,7 @@ ghq get --update --parallel github.com/tony/tmux-config
 echo -e "\nPut settings"
 GITHUB_REPOSITORIES_PATH="$REPOSITORIES_PATH/github.com"
 SETTINGS_PATH="$GITHUB_REPOSITORIES_PATH/machupicchubeta/dotfiles"
-find "$SETTINGS_PATH"/.* -type d -d 0 ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git" -exec sh -c '
+find "$SETTINGS_PATH"/.* -maxdepth 0 -type d ! -path "$SETTINGS_PATH/." ! -path "$SETTINGS_PATH/.." ! -path "$SETTINGS_PATH/.git" -exec sh -c '
     dot_directory=$1
     dot_directory_name=$(basename "$dot_directory")
     if [ -L "$HOME/$dot_directory_name" ]; then
@@ -88,7 +88,7 @@ if [ -L "$XDG_CONFIG_HOME/nvim" ]; then
   unlink "$XDG_CONFIG_HOME/nvim"
 fi
 ln -s "$SETTINGS_PATH/.vim" "$XDG_CONFIG_HOME/nvim"
-find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -type f -d 0 -exec sh -c '
+find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -maxdepth 0 -type f -exec sh -c '
     dot_file=$1
     dot_filename=$(basename "$dot_file")
     if [ -L "$HOME/$dot_filename" ]; then
