@@ -142,11 +142,11 @@ if [ -L "$BIN_PATH/diceware.wordlist.asc" ]; then
 fi
 ln -s "$GITHUB_REPOSITORIES_PATH/machupicchubeta/diceware/diceware.wordlist.asc" "$BIN_PATH/diceware.wordlist.asc"
 
-echo -e "\nLoad compiler options"
-COMPILER_OPTIONS_PATH="$HOME/.zsh/compiler_options.zsh"
-if [ -r "$COMPILER_OPTIONS_PATH" ]; then
+echo -e "\nLoad environment variables"
+ENVIRONMENT_VARIABLES_PATH="$HOME/.zsh/variables.zsh"
+if [ -r "$ENVIRONMENT_VARIABLES_PATH" ]; then
   # shellcheck source=/dev/null
-  source "$COMPILER_OPTIONS_PATH"
+  source "$ENVIRONMENT_VARIABLES_PATH"
 fi
 
 echo -e "\nSetup Ruby"
