@@ -95,6 +95,13 @@ if [ -L "$XDG_CONFIG_HOME/starship.toml" ]; then
   unlink "$XDG_CONFIG_HOME/starship.toml"
 fi
 ln -s "$SETTINGS_PATH/config/starship.toml" "$XDG_CONFIG_HOME/starship.toml"
+if [ ! -d "$XDG_CONFIG_HOME/lsd" ]; then
+  mkdir "$XDG_CONFIG_HOME/lsd"
+fi
+if [ -L "$XDG_CONFIG_HOME/lsd/config.yaml" ]; then
+  unlink "$XDG_CONFIG_HOME/lsd/config.yaml"
+fi
+ln -s "$SETTINGS_PATH/config/lsd/config.yaml" "$XDG_CONFIG_HOME/lsd/config.yaml"
 find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -maxdepth 0 -type f -exec sh -c '
     dot_file=$1
     dot_filename=$(basename "$dot_file")
