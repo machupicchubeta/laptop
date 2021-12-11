@@ -186,6 +186,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nSetup Rust"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
 
+echo -e "\nSetup Terraform"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
+
 echo -e "\nApply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   # shellcheck source=/dev/null
