@@ -103,6 +103,16 @@ if [ -L "$XDG_CONFIG_HOME/lsd/config.yaml" ]; then
   unlink "$XDG_CONFIG_HOME/lsd/config.yaml"
 fi
 ln -s "$SETTINGS_PATH/config/lsd/config.yaml" "$XDG_CONFIG_HOME/lsd/config.yaml"
+if [ ! -d "$XDG_CONFIG_HOME/sheldon" ]; then
+  mkdir "$XDG_CONFIG_HOME/sheldon"
+fi
+if [ -L "$XDG_CONFIG_HOME/sheldon/plugins.toml" ]; then
+  unlink "$XDG_CONFIG_HOME/sheldon/plugins.toml"
+fi
+if [ -e "$XDG_CONFIG_HOME/sheldon/plugins.toml" ]; then
+  mv "$XDG_CONFIG_HOME/sheldon/plugins.toml" "$XDG_CONFIG_HOME"/sheldon/plugins."$(date +%Y-%m-%dT%H:%M:%S%z)".toml
+fi
+ln -s "$SETTINGS_PATH/config/sheldon/plugins.toml" "$XDG_CONFIG_HOME/sheldon/plugins.toml"
 find "$GITHUB_REPOSITORIES_PATH"/machupicchubeta/dotfiles/.* -maxdepth 0 -type f -exec sh -c '
     dot_file=$1
     dot_filename=$(basename "$dot_file")
