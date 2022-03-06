@@ -6,13 +6,7 @@ echo "Enable to sudo authenticate with touch id"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_sudo_authenticate_with_touch_id.sh)
 
 echo -e "\nGenerate key pair"
-if [ ! -e "$HOME/.ssh/id_rsa" ]; then
-  echo 'Enter email:'
-  read -r email
-  ssh-keygen -t rsa -b 4096 -C "$email"
-  eval "$(ssh-agent -s)"
-  ssh-add -K "$HOME/.ssh/id_rsa"
-fi
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/generate_key_pair.sh)
 
 echo -e "\nSetup Command Line Tools"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_command_line_tools.sh)
