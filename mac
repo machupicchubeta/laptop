@@ -64,7 +64,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nApply private settings"
 if [ -f "$HOME/.laptop.local" ]; then
   # shellcheck source=/dev/null
-  . "$HOME/.laptop.local"
+  source "$HOME/.laptop.local"
 fi
 
 echo -e "\nUse zsh installed via Homebrew as default shell"
