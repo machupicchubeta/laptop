@@ -2,8 +2,28 @@
 set -eu
 cd "$HOME"
 
-echo -e "\nLoad environment variables"
-source <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/.zsh/variables.zsh)
+echo -e "Load environment variables"
+curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/.zsh/variables.zsh -o "/tmp/variables.zsh"
+if [ -f '/tmp/variables.zsh' ]; then
+  source /tmp/variables.zsh
+  rm -f '/tmp/variables.zsh'
+fi
+
+echo -e "\nCheck CPU brand"
+: "${CPU_BRAND:=$(/usr/sbin/sysctl -n machdep.cpu.brand_string)}"
+echo $CPU_BRAND
+if [ -z "$(echo $CPU_BRAND | grep -o 'Apple')" ]; then
+  echo "Run commands as arm64 on this system is not supported."
+  exit 1
+fi
+
+echo -e "\nInstall Rosetta 2"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rosetta.sh)
+
+echo -e "\nMake sure to run as arm64 architecture"
+if [ "$(uname -m)" = "x86_64" ]; then
+  exec arch -arch arm64e "$SHELL"
+fi
 
 echo -e "\nEnable to sudo authenticate with touch id"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_sudo_authenticate_with_touch_id.sh)
@@ -28,8 +48,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nCopy SFMono fonts to User font directory"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_fonts.sh)
 
-echo -e "\nDownload settings and themes"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/download_settings_and_themes.sh)
+echo -e "\nDownload settings"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/download_settings.sh)
 
 echo -e "\nPut settings"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/put_settings.sh)
