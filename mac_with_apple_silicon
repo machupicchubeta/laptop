@@ -42,6 +42,9 @@ fi
 echo -e "\nInstall commands and Apps"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/brewfile.sh)
 
+echo -e "\nPut iTerm2Rosetta.app based on iTerm.app"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/put_iterm2_using_rosetta2.sh)
+
 echo -e "\nSetup directories"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_directories.sh)
 
