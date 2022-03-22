@@ -48,7 +48,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nSetup directories"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_directories.sh)
 
-echo -e "\nCopy SFMono fonts to User font directory"
+echo -e "\nSetup fonts"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_fonts.sh)
 
 echo -e "\nEnable key-repeating on 'Visual Studio Code'"
