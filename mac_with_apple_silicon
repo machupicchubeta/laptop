@@ -88,9 +88,9 @@ echo -e "\nSetup Terraform"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
 
 echo -e "\nApply private settings"
-if [ -f "$HOME/.laptop.local" ]; then
+if [ -f "$HOME/.mac.private" ]; then
   # shellcheck source=/dev/null
-  source "$HOME/.laptop.local"
+  source "$HOME/.mac.private"
 fi
 
 echo -e "\nUse zsh installed via Homebrew as default shell"
