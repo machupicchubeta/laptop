@@ -82,9 +82,9 @@ else
 fi
 
 echo -e "\nApply private settings"
-if [ -f "$HOME/.laptop.local" ]; then
+if [ -f "$HOME/.mac.private" ]; then
   # shellcheck source=/dev/null
-  source "$HOME/.laptop.local"
+  source "$HOME/.mac.private"
 fi
 
 echo -e "\nUse zsh installed via Homebrew as default shell"
