@@ -55,6 +55,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 
 if [ -n "$(echo $CPU_BRAND | grep -o 'Apple')" ]; then
   echo -e "Skip development language setup for under x86_64 arch settings.\nOn Apple silicon, please run under arm64 arch settings."
+
+  echo -e "\nSetup Rust"
+  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
 else
   echo -e "\nSetup Ruby"
   bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_ruby.sh)
@@ -73,9 +76,6 @@ else
 
   echo -e "\nSetup Go"
   bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_go.sh)
-
-  echo -e "\nSetup Rust"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
 
   echo -e "\nSetup Terraform"
   bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
