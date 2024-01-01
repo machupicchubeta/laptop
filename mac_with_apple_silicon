@@ -63,6 +63,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nPut scripts"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/put_scripts.sh)
 
+echo -e "\nSetup direnv"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_direnv.sh)
+
 echo -e "\nSetup Rust"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
 
@@ -97,4 +100,4 @@ echo -e "\nUse zsh installed via Homebrew as default shell"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_default_shell.sh)
 
 echo -e "\nLoad direnv"
-if which direnv > /dev/null; then direnv allow; fi
+if command -v direnv > /dev/null; then direnv allow; fi
