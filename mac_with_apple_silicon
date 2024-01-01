@@ -97,4 +97,4 @@ echo -e "\nUse zsh installed via Homebrew as default shell"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_default_shell.sh)
 
 echo -e "\nLoad direnv"
-if which direnv > /dev/null; then direnv allow; fi
+if command -v direnv > /dev/null; then direnv allow; fi
