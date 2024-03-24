@@ -98,4 +98,4 @@ else
 fi
 
 echo -e "\nLoad direnv"
-if command -v direnv > /dev/null; then direnv allow; fi
+if command -v direnv > /dev/null && [ -f .envrc ]; then direnv allow; fi
