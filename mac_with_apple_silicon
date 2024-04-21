@@ -90,6 +90,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nSetup Terraform"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
 
+echo -e "\nSetup Flutter"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_flutter.sh)
+
 echo -e "\nApply private settings"
 if [ -f "$HOME/.mac.private" ]; then
   # shellcheck source=/dev/null

@@ -82,6 +82,9 @@ else
 
   echo -e "\nSetup Terraform"
   bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
+
+  echo -e "\nSetup Flutter"
+  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_flutter.sh)
 fi
 
 echo -e "\nApply private settings"
