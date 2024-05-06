@@ -5,6 +5,7 @@ cd "$HOME"
 echo -e "Load environment variables"
 curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/.zsh/variables.zsh -o "/tmp/variables.zsh"
 if [ -f '/tmp/variables.zsh' ]; then
+  # shellcheck source=/dev/null
   source /tmp/variables.zsh
   rm -f '/tmp/variables.zsh'
 fi
