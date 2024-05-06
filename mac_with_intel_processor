@@ -11,7 +11,7 @@ fi
 
 echo -e "\nCheck CPU brand"
 : "${CPU_BRAND:=$(/usr/sbin/sysctl -n machdep.cpu.brand_string)}"
-echo $CPU_BRAND
+echo "$CPU_BRAND"
 
 echo -e "\nMake sure to run as x86_64 architecture"
 if [ "$(uname -m)" = "arm64" ]; then
@@ -53,7 +53,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nPut scripts"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/put_scripts.sh)
 
-if [ -n "$(echo $CPU_BRAND | grep -o 'Apple')" ]; then
+if [ -n "$(echo \"$CPU_BRAND\" | grep -o 'Apple')" ]; then
   echo -e "Skip development language setup for under x86_64 arch settings.\nOn Apple silicon, please run under arm64 arch settings."
 else
   echo -e "\nSetup direnv"
@@ -93,7 +93,7 @@ if [ -f "$HOME/.mac.private" ]; then
 fi
 
 echo -e "\nUse zsh installed via Homebrew as default shell"
-if [ -n "$(echo $CPU_BRAND | grep -o 'Apple')" ]; then
+if [ -n "$(echo \"$CPU_BRAND\" | grep -o 'Apple')" ]; then
   echo -e "Skip default shell setup for under x86_64 arch settings.\nOn Apple silicon, please run under arm64 arch settings."
 else
   bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_default_shell.sh)
