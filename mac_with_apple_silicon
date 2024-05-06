@@ -11,8 +11,8 @@ fi
 
 echo -e "\nCheck CPU brand"
 : "${CPU_BRAND:=$(/usr/sbin/sysctl -n machdep.cpu.brand_string)}"
-echo $CPU_BRAND
-if [ -z "$(echo $CPU_BRAND | grep -o 'Apple')" ]; then
+echo "$CPU_BRAND"
+if [ -z "$(echo \"$CPU_BRAND\" | grep -o 'Apple')" ]; then
   echo "Run commands as arm64 on this system is not supported."
   exit 1
 fi
