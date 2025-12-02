@@ -9,14 +9,8 @@ if [ -f '/tmp/env_vars.zsh' ]; then
   rm -f '/tmp/env_vars.zsh'
 fi
 
-echo -e "\nCheck CPU brand"
-: "${CPU_BRAND:=$(/usr/sbin/sysctl -n machdep.cpu.brand_string)}"
-echo "$CPU_BRAND"
-
-echo -e "\nMake sure to run as x86_64 architecture"
-if [ "$(uname -m)" = "arm64" ]; then
-  exec arch -arch x86_64 "$SHELL"
-fi
+echo -e "\nInstall Rosetta 2"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rosetta.sh)
 
 echo -e "\nEnable to sudo authenticate with touch id"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_sudo_authenticate_with_touch_id.sh)
@@ -53,36 +47,32 @@ bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/mai
 echo -e "\nPut scripts"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/put_scripts.sh)
 
-if echo "$CPU_BRAND" | grep --silent 'Apple'; then
-  echo -e "Skip development language setup for under x86_64 arch settings.\nOn Apple silicon, please run under arm64 arch settings."
-else
-  echo -e "\nSetup Rust"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
+echo -e "\nSetup Rust"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
 
-  echo -e "\nSetup Ruby"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_ruby.sh)
+echo -e "\nSetup Ruby"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_ruby.sh)
 
-  echo -e "\nSetup Python"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_python.sh)
+echo -e "\nSetup Python"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_python.sh)
 
-  echo -e "\nSetup Perl"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_perl.sh)
+echo -e "\nSetup Perl"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_perl.sh)
 
-  echo -e "\nSetup Java"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_java.sh)
+echo -e "\nSetup Java"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_java.sh)
 
-  echo -e "\nSetup Node.js"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_nodejs.sh)
+echo -e "\nSetup Node.js"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_nodejs.sh)
 
-  echo -e "\nSetup Go"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_go.sh)
+echo -e "\nSetup Go"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_go.sh)
 
-  echo -e "\nSetup Terraform"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
+echo -e "\nSetup Terraform"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
 
-  echo -e "\nSetup Flutter"
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_flutter.sh)
-fi
+echo -e "\nSetup Flutter"
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_flutter.sh)
 
 echo -e "\nApply private settings"
 if [ -f "$HOME/.mac.private" ]; then
@@ -90,11 +80,7 @@ if [ -f "$HOME/.mac.private" ]; then
 fi
 
 echo -e "\nUse zsh installed via Homebrew as default shell"
-if echo "$CPU_BRAND" | grep --silent 'Apple'; then
-  echo -e "Skip default shell setup for under x86_64 arch settings.\nOn Apple silicon, please run under arm64 arch settings."
-else
-  bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_default_shell.sh)
-fi
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_default_shell.sh)
 
 echo -e "\nLoad direnv"
 if command -v direnv > /dev/null && [ -f .envrc ]; then direnv allow; fi
