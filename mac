@@ -3,23 +3,23 @@ set -eu
 cd "$HOME"
 
 echo -e "Load environment variables"
-curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/.zsh/env_vars.zsh -o "/tmp/env_vars.zsh"
+curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/.zsh/env_vars.zsh -o "/tmp/env_vars.zsh"
 if [ -f '/tmp/env_vars.zsh' ]; then
   source /tmp/env_vars.zsh
   rm -f '/tmp/env_vars.zsh'
 fi
 
 echo -e "\nInstall Rosetta 2"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rosetta.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_rosetta.sh)
 
 echo -e "\nEnable to sudo authenticate with touch id"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_sudo_authenticate_with_touch_id.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/enable_to_sudo_authenticate_with_touch_id.sh)
 
 echo -e "\nGenerate key pair"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/generate_key_pair.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/generate_key_pair.sh)
 
 echo -e "\nSetup Command Line Tools"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_command_line_tools.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_command_line_tools.sh)
 
 echo -e "\nInstall Homebrew"
 if [ ! -x "$(command -v brew)" ]; then
@@ -27,52 +27,52 @@ if [ ! -x "$(command -v brew)" ]; then
 fi
 
 echo -e "\nInstall commands and Apps"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/brewfile.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/brewfile.sh)
 
 echo -e "\nSetup directories"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_directories.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_directories.sh)
 
 echo -e "\nSetup fonts"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_fonts.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_fonts.sh)
 
 echo -e "\nEnable key-repeating on 'Visual Studio Code'"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_key-repeating_on_vscode.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/enable_to_key-repeating_on_vscode.sh)
 
 echo -e "\nDownload settings"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/download_settings.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/download_settings.sh)
 
 echo -e "\nPut settings"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/put_settings.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/put_settings.sh)
 
 echo -e "\nPut scripts"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/put_scripts.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/put_scripts.sh)
 
 echo -e "\nSetup Rust"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rust.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_rust.sh)
 
 echo -e "\nSetup Ruby"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_ruby.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_ruby.sh)
 
 echo -e "\nSetup Python"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_python.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_python.sh)
 
 echo -e "\nSetup Perl"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_perl.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_perl.sh)
 
 echo -e "\nSetup Java"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_java.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_java.sh)
 
 echo -e "\nSetup Node.js"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_nodejs.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_nodejs.sh)
 
 echo -e "\nSetup Go"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_go.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_go.sh)
 
 echo -e "\nSetup Terraform"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_terraform.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_terraform.sh)
 
 echo -e "\nSetup Flutter"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_flutter.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_flutter.sh)
 
 echo -e "\nApply private settings"
 if [ -f "$HOME/.mac.private" ]; then
@@ -80,7 +80,7 @@ if [ -f "$HOME/.mac.private" ]; then
 fi
 
 echo -e "\nUse zsh installed via Homebrew as default shell"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_default_shell.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/no_longer_setup_macos_on_intel_x86_processor/bin/setup_default_shell.sh)
 
 echo -e "\nLoad direnv"
 if command -v direnv > /dev/null && [ -f .envrc ]; then direnv allow; fi
