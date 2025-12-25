@@ -1,0 +1,15 @@
+name: reviewdog
+on: [pull_request]
+jobs:
+  shellcheck:
+    name: runner / shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        uses: reviewdog/action-shellcheck@v1
+        with:
+          path: '.'
+          pattern: 'mac_with_*'
+          exclude: './.git/*'
+          check_all_files_with_shebangs: 'false'
