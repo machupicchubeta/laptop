@@ -9,9 +9,6 @@ if [ -f '/tmp/env_vars.zsh' ]; then
   rm -f '/tmp/env_vars.zsh'
 fi
 
-echo -e "\nInstall Rosetta 2"
-bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/setup_rosetta.sh)
-
 echo -e "\nEnable to sudo authenticate with touch id"
 bash <(curl -fsSL https://raw.githubusercontent.com/machupicchubeta/dotfiles/main/bin/enable_to_sudo_authenticate_with_touch_id.sh)
 
